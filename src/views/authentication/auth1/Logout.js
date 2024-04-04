@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../axios/hooks/useAuth";
 
 export const SignOut = () => {
-    const { clearToken } = useAuth();
+    const { clearCredentials } = useAuth();
     const navigate = useNavigate();
 
     const handleSignOut = () => {
-        clearToken();
+        clearCredentials();
         navigate("/auth/login", { replace: true });
     };
 

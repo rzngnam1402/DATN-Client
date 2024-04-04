@@ -4,48 +4,52 @@ import { createContext, useContext, useMemo, useReducer } from 'react';
 const AuthContext = createContext();
 
 const ACTIONS = {
-  setToken: 'setToken',
-  clearToken: 'clearToken',
+  setCredentials: 'setCredentials',
+  clearCredentials: 'clearCredentials',
 };
 
 const authReducer = (state, action) => {
   switch (action.type) {
-    case ACTIONS.setToken:
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + action.payload;
-      localStorage.setItem('token', action.payload);
-
-      return { ...state, token: action.payload };
-
-    case ACTIONS.clearToken:
+    case ACTIONS.setCredentials: {
+      const { token, role } = action.payload;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', role);
+      return { ...state, token, role };
+    }
+    case ACTIONS.clearCredentials: {
       delete axios.defaults.headers.common['Authorization'];
       localStorage.removeItem('token');
-      return { ...state, token: null };
-
+      localStorage.removeItem('role');
+      return { ...state, token: null, role: null };
+    }
     default:
-      console.error(`You passed an action.type: ${action.type} which doesn't exist`);
+      console.error(`Action type: ${action.type} doesn't exist`);
+      return state;
   }
 };
 
 const initialData = {
   token: localStorage.getItem('token'),
+  role: localStorage.getItem('role'),
 };
 
 const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialData);
 
-  const setToken = (newToken) => {
-    dispatch({ type: ACTIONS.setToken, payload: newToken });
+  const setCredentials = (token, role) => {
+    dispatch({ type: ACTIONS.setCredentials, payload: { token, role } });
   };
 
-  const clearToken = () => {
-    dispatch({ type: ACTIONS.clearToken });
+  const clearCredentials = () => {
+    dispatch({ type: ACTIONS.clearCredentials });
   };
 
   const contextValue = useMemo(
     () => ({
       ...state,
-      setToken,
-      clearToken,
+      setCredentials,
+      clearCredentials,
     }),
     [state],
   );
@@ -53,8 +57,6 @@ const AuthProvider = ({ children }) => {
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);
 
 export default AuthProvider;

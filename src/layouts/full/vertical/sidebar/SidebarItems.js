@@ -1,14 +1,17 @@
 import React from 'react';
-import Menuitems from './MenuItems';
 import { useLocation } from 'react-router';
+import { useAuth } from '../../../../axios/hooks/useAuth';
 import { Box, List, useMediaQuery } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleMobileSidebar } from 'src/store/customizer/CustomizerSlice';
 import NavItem from './NavItem';
 import NavCollapse from './NavCollapse';
 import NavGroup from './NavGroup/NavGroup';
+import BankerItems from './BankerItems';
+import ClientItems from './ClientItems';
 
 const SidebarItems = () => {
+  const { role } = useAuth();
   const { pathname } = useLocation();
   const pathDirect = pathname;
   const pathWithoutLastPart = pathname.slice(0, pathname.lastIndexOf('/'));
@@ -16,11 +19,18 @@ const SidebarItems = () => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const hideMenu = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
   const dispatch = useDispatch();
+  let Items = [];
+  if (role === 'CLIENT') {
+    Items = ClientItems;
+  }
+  else if (role === 'BANKER') {
+    Items = BankerItems;
+  }
 
   return (
     <Box sx={{ px: 3 }}>
       <List sx={{ pt: 0 }} className="sidebarNav">
-        {Menuitems.map((item, index) => {
+        {Items.map((item, index) => {
           // {/********SubHeader**********/}
           if (item.subheader) {
             return <NavGroup item={item} hideMenu={hideMenu} key={item.subheader} />;

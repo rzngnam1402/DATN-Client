@@ -19,7 +19,7 @@ import { useAuth } from '../../../axios/hooks/useAuth';
 import axiosClient from '../../../axios/axios';
 
 const AuthLogin = ({ title, subtitle, subtext }) => {
-  const { setToken } = useAuth();
+  const { setCredentials } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -38,7 +38,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
         }
       )
       .then(({ data }) => {
-        setToken(data.access_token);
+        setCredentials(data.access_token, data.role);
         navigate("/", { replace: true });
       })
       .catch((err) => {

@@ -14,6 +14,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [company, setCompany] = useState("");
   const handleSignup = () => {
     axiosClient
       .post(
@@ -24,6 +25,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
           password,
           phone,
           address,
+          company
         },
         {
           headers: { "Content-Type": "application/json" },
@@ -94,6 +96,15 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             htmlFor="phone" />
+
+          <CustomFormLabel htmlFor="company">Business Name</CustomFormLabel>
+          <CustomTextField
+            id="company"
+            variant="outlined"
+            fullWidth
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            htmlFor="company" />
         </Stack>
         <Button
           color="primary"

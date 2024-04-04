@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
 import { SignOut } from '../views/authentication/auth1/Logout';
 import { ProtectedRoute } from './ProtectedRoute';
+import ApplicationList from '../views/apps/applications/ApplicationList';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -21,7 +22,7 @@ const Email = Loadable(lazy(() => import('../views/apps/email/Email')));
 const Blog = Loadable(lazy(() => import('../views/apps/blog/Blog')));
 const BlogDetail = Loadable(lazy(() => import('../views/apps/blog/BlogPost')));
 const Tickets = Loadable(lazy(() => import('../views/apps/tickets/Tickets')));
-const ApplicationList = Loadable(lazy(() => import('../views/apps/applications/ApplicationList')));
+const ClientApplicationList = Loadable(lazy(() => import('../views/apps/applications/ClientApplicationList')));
 const Contacts = Loadable(lazy(() => import('../views/apps/contacts/Contacts')));
 const Ecommerce = Loadable(lazy(() => import('../views/apps/eCommerce/Ecommerce')));
 const EcommerceDetail = Loadable(lazy(() => import('../views/apps/eCommerce/EcommerceDetail')));
@@ -134,7 +135,7 @@ const Router = [
           { path: '/apps/calendar', element: <Calendar /> },
           { path: '/apps/email', element: <Email /> },
           { path: '/apps/tickets', element: <Tickets /> },
-          { path: '/tracking/applications', element: <ApplicationList /> },
+          { path: 'tracking/applications', element: <ApplicationList /> },
           { path: '/apps/contacts', element: <Contacts /> },
           { path: '/apps/ecommerce/shop', element: <Ecommerce /> },
           { path: '/apps/blog/posts', element: <Blog /> },
