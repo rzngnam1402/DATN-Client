@@ -5,6 +5,7 @@ import Loadable from '../layouts/full/shared/loadable/Loadable';
 import { SignOut } from '../views/authentication/auth1/Logout';
 import { ProtectedRoute } from './ProtectedRoute';
 import ApplicationList from '../views/apps/applications/ApplicationList';
+import ApplicationDetail from '../views/apps/applications/ApplicationDetail';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -136,6 +137,7 @@ const Router = [
           { path: '/apps/email', element: <Email /> },
           { path: '/apps/tickets', element: <Tickets /> },
           { path: 'tracking/applications', element: <ApplicationList /> },
+          { path: 'tracking/applications/:applicationId', element: <ApplicationDetail /> },
           { path: '/apps/contacts', element: <Contacts /> },
           { path: '/apps/ecommerce/shop', element: <Ecommerce /> },
           { path: '/apps/blog/posts', element: <Blog /> },

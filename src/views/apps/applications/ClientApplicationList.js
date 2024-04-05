@@ -1,10 +1,11 @@
 import Breadcrumb from '../../../layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from '../../../components/container/PageContainer';
 import ChildCard from 'src/components/shared/ChildCard';
-import ApplicationFilter from '../../../components/apps/client/applications/ApplicationsFilter';
-import ApplicationListing from '../../../components/apps/client/applications/ApplicationsListing';
 import { useEffect, useState } from 'react';
 import axiosClient from '../../../axios/axios';
+import ApplicationFilter from '../../../components/applications/ApplicationsFilter';
+import ClientApplicationListing from '../../../components/applications/client/ApplicationsListing';
+
 
 const BCrumb = [
     {
@@ -44,7 +45,7 @@ const ClientApplicationList = () => {
             <Breadcrumb title="Your Applications" items={BCrumb} />
             <ChildCard>
                 <ApplicationFilter counter={counter} />
-                <ApplicationListing applications={applications} />
+                <ClientApplicationListing applications={applications} />
             </ChildCard>
         </PageContainer>
     );

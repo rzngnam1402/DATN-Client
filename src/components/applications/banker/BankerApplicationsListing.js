@@ -17,60 +17,14 @@ import {
     Pagination,
     TableContainer,
 } from '@mui/material';
-import { fetchTickets, DeleteTicket, SearchTicket } from '../../../../store/apps/tickets/TicketSlice';
+import { fetchTickets, DeleteTicket, SearchTicket } from '../../../store/apps/tickets/TicketSlice';
 import { IconTrash } from '@tabler/icons';
-import { formatDate } from '../../../../utils/date';
+import { formatDate } from '../../../utils/date';
+import { Link } from 'react-router-dom';
 
-const ApplicationListing = ({ applications }) => {
+const BankerApplicationListing = ({ applications }) => {
     console.log(applications)
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(fetchTickets());
-    }, [dispatch]);
 
-    const getVisibleTickets = (tickets, filter, ticketSearch) => {
-        switch (filter) {
-            case 'total_tickets':
-                return tickets.filter(
-                    (c) => !c.deleted && c.ticketTitle.toLocaleLowerCase().includes(ticketSearch),
-                );
-
-            case 'Pending':
-                return tickets.filter(
-                    (c) =>
-                        !c.deleted &&
-                        c.Status === 'Pending' &&
-                        c.ticketTitle.toLocaleLowerCase().includes(ticketSearch),
-                );
-
-            case 'Closed':
-                return tickets.filter(
-                    (c) =>
-                        !c.deleted &&
-                        c.Status === 'Closed' &&
-                        c.ticketTitle.toLocaleLowerCase().includes(ticketSearch),
-                );
-
-            case 'Open':
-                return tickets.filter(
-                    (c) =>
-                        !c.deleted &&
-                        c.Status === 'Open' &&
-                        c.ticketTitle.toLocaleLowerCase().includes(ticketSearch),
-                );
-
-            default:
-                throw new Error(`Unknown filter: ${filter}`);
-        }
-    };
-
-    const tickets = useSelector((state) =>
-        getVisibleTickets(
-            state.ticketReducer.tickets,
-            state.ticketReducer.currentFilter,
-            state.ticketReducer.ticketSearch,
-        ),
-    );
     return (
         <Box mt={4}>
             <Box sx={{ maxWidth: '260px', ml: 'auto' }} mb={3}>
@@ -78,7 +32,6 @@ const ApplicationListing = ({ applications }) => {
                     size="small"
                     label="Search"
                     fullWidth
-                    onChange={(e) => dispatch(SearchTicket(e.target.value))}
                 />
             </Box>
             <TableContainer>
@@ -95,9 +48,6 @@ const ApplicationListing = ({ applications }) => {
                                 <Typography variant="h6">Beneficiary Name</Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography variant="h6">Bank Name</Typography>
-                            </TableCell>
-                            <TableCell>
                                 <Typography variant="h6">Status</Typography>
                             </TableCell>
                             <TableCell>
@@ -110,8 +60,18 @@ const ApplicationListing = ({ applications }) => {
                     </TableHead>
                     <TableBody>
                         {applications.map((application) => (
-                            <TableRow key={application.application_id} hover>
-                                <TableCell>{application.application_id}</TableCell>
+                            <TableRow
+                                key={application.application_id}
+                                to={`${application.application_id}`}
+                                hover
+                                component={Link}
+                                style={{ textDecoration: 'none' }}
+                            >
+                                <TableCell>
+                                    <Stack direction="row" gap="10px" alignItems="center">
+                                        <Typography variant="h6" fontWeight="500" >{application.application_id}</Typography>
+                                    </Stack>
+                                </TableCell>
                                 <TableCell>
                                     <Box>
                                         <Typography variant="h6" fontWeight="500" >
@@ -122,11 +82,6 @@ const ApplicationListing = ({ applications }) => {
                                 <TableCell>
                                     <Stack direction="row" gap="10px" alignItems="center">
                                         <Typography variant="h6" fontWeight="500" >{application.ApplicantDetail.businessName}</Typography>
-                                    </Stack>
-                                </TableCell>
-                                <TableCell>
-                                    <Stack direction="row" gap="10px" alignItems="center">
-                                        <Typography variant="h6">{application.bankName}</Typography>
                                     </Stack>
                                 </TableCell>
                                 <TableCell>
@@ -150,9 +105,7 @@ const ApplicationListing = ({ applications }) => {
                                 </TableCell>
                                 <TableCell align="right">
                                     <Tooltip title="Delete Application">
-                                        <IconButton
-                                        // onClick={() => dispatch(DeleteTicket(ticket.Id))}
-                                        >
+                                        <IconButton>
                                             <IconTrash size="18" />
                                         </IconButton>
                                     </Tooltip>
@@ -169,4 +122,4 @@ const ApplicationListing = ({ applications }) => {
     );
 };
 
-export default ApplicationListing;
+export default BankerApplicationListing;
