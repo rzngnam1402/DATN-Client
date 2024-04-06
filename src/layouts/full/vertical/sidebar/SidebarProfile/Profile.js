@@ -19,7 +19,7 @@ export const Profile = () => {
         setUser({ username: data.username, role: data.role })
       })
       .catch((error) => console.error(error));
-  })
+  }, [])
 
   return (
     <Box

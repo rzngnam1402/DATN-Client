@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Menu, Avatar, Typography, Divider, Button, IconButton } from '@mui/material';
 import * as dropdownData from './data';
@@ -25,10 +25,10 @@ const Profile = () => {
   useEffect(() => {
     axiosClient.get('users/me')
       .then(({ data }) => {
-        setUser({ username: data.username, role: data.role, email: data.email })
+        setUser({ username: data.username, role: data.role, email: data.email });
       })
       .catch((error) => console.error(error));
-  })
+  }, [])
 
   return (
     <Box>
