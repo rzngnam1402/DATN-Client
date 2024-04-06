@@ -16,6 +16,8 @@ import CustomFormLabel from '../theme-elements/CustomFormLabel';
 import CustomTextField from '../theme-elements/CustomTextField';
 import { formatDate } from '../../../utils/date';
 import { formatMoney } from '../../../utils/money';
+import { Document, Page } from '@react-pdf/renderer';
+import FileReader from '../../../utils/file';
 
 
 const BankerApplicationCollapsible = ({ application = {} }) => {
@@ -26,15 +28,13 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
     });
 
     useEffect(() => {
-        let reader = new FileReader();
-        // reader.readAsDataURL(application.collateralFile);
-        // console.log(reader);
-        // reader.onloadend = (e) => {
-        //     setPdfFile(e.target.result);
-        //     setPdfFileError('');
+        // let reader = new FileReader();
     }, [])
 
+
     const handleToggle = (panelName) => {
+        const file = JSON.parse(application.collateralFile)
+        console.log(file)
         console.log(application)
         setPanel((prevToggle) => ({
             ...prevToggle,
@@ -284,16 +284,11 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
                                         InputProps={{ readOnly: true }} />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <CustomFormLabel htmlFor="file" sx={{ mt: 0 }}>
-                                        File
+                                    <CustomFormLabel htmlFor="collateral-file" sx={{ mt: 0 }}>
+                                        Collateral File
                                     </CustomFormLabel>
-                                    <CustomTextField
-                                        id="file"
-                                        placeholder="Collateral File"
-                                        multiline
-                                        fullWidth
-                                        value={application.collateralFile}
-                                        InputProps={{ readOnly: true }} />
+
+                                    <FileReader id="collateral-file" file={JSON.parse(application.collateralFile)} />
                                 </Grid>
 
                                 <Grid item xs={12} sm={10} />
