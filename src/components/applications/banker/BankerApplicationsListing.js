@@ -53,9 +53,6 @@ const BankerApplicationListing = ({ applications }) => {
                             <TableCell>
                                 <Typography variant="h6">Date</Typography>
                             </TableCell>
-                            <TableCell align="right">
-                                <Typography variant="h6">Action</Typography>
-                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -102,13 +99,6 @@ const BankerApplicationListing = ({ applications }) => {
                                 </TableCell>
                                 <TableCell>
                                     <Typography>{formatDate(application.createdAt)}</Typography>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <Tooltip title="Delete Application">
-                                        <IconButton>
-                                            <IconTrash size="18" />
-                                        </IconButton>
-                                    </Tooltip>
                                 </TableCell>
                             </TableRow>
                         ))}

@@ -16,21 +16,22 @@ import CustomFormLabel from '../theme-elements/CustomFormLabel';
 import CustomTextField from '../theme-elements/CustomTextField';
 import { formatDate } from '../../../utils/date';
 import { formatMoney } from '../../../utils/money';
-import { Document, Page } from '@react-pdf/renderer';
 import FileReader from '../../../utils/file';
+import axiosClient from '../../../axios/axios';
+import { useNavigate, useParams } from 'react-router';
+import CustomButtonDialog from '../../material-ui/dialog/CustomDialog';
+
 
 
 const BankerApplicationCollapsible = ({ application = {} }) => {
+    const navigate = useNavigate();
+
+    const { applicationId } = useParams()
     const [panel, setPanel] = useState({
         panel1: true,
         panel2: true,
         panel3: true,
     });
-
-    useEffect(() => {
-        // let reader = new FileReader();
-    }, [])
-
 
     const handleToggle = (panelName) => {
         const file = JSON.parse(application.collateralFile)
@@ -40,8 +41,26 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
             ...prevToggle,
             [panelName]: !prevToggle[panelName],
         }));
-
     };
+
+    const handleApprove = () => {
+        axiosClient.patch(`application/${applicationId}`,
+            { status: 'APPROVED' }
+        )
+            .then((response) => { console.log(response) })
+            .catch((error) => { console.log(error) });
+        window.location.reload()
+    }
+
+    const handleReject = () => {
+        axiosClient.patch(`application/${applicationId}`,
+            { status: 'REJECTED' }
+        )
+            .then((response) => { console.log(response) })
+            .catch((error) => { console.log(error) });
+        window.location.reload()
+    }
+
     return (
         <div>
             {application && application.ApplicantDetail && (
@@ -244,17 +263,6 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <CustomFormLabel htmlFor="effective-date" sx={{ mt: 0 }}>
-                                        Effective Date
-                                    </CustomFormLabel>
-                                    <CustomTextField
-                                        id="effective-date"
-                                        placeholder="Effective Date"
-                                        fullWidth
-                                        value={formatDate(application.effectiveDate)}
-                                        InputProps={{ readOnly: true }} />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
                                     <Box>
                                         <Grid container spacing={3}>
                                             <Grid item xs={12}>
@@ -271,6 +279,18 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
                                         </Grid>
                                     </Box>
                                 </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <CustomFormLabel htmlFor="effective-date" sx={{ mt: 0 }}>
+                                        Effective Date
+                                    </CustomFormLabel>
+                                    <CustomTextField
+                                        id="effective-date"
+                                        placeholder="Effective Date"
+                                        fullWidth
+                                        value={formatDate(application.effectiveDate)}
+                                        InputProps={{ readOnly: true }} />
+                                </Grid>
+
                                 <Grid item xs={12}>
                                     <CustomFormLabel htmlFor="purpose" sx={{ mt: 0 }}>
                                         Purpose
@@ -283,30 +303,79 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
                                         value={application.purpose}
                                         InputProps={{ readOnly: true }} />
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <CustomFormLabel htmlFor="collateral-file" sx={{ mt: 0 }}>
-                                        Collateral File
-                                    </CustomFormLabel>
-
-                                    <FileReader id="collateral-file" file={JSON.parse(application.collateralFile)} />
-                                </Grid>
-
-                                <Grid item xs={12} sm={10} />
-                                <Grid item xs={12} sm={2}>
-                                    <Stack direction="row" spacing={2}>
-                                        <Button variant="text" color="error">
-                                            Reject
-                                        </Button>
-                                        <Button variant="contained" color="success">
-                                            Approve
-                                        </Button>
-                                    </Stack>
-                                </Grid>
+                                {
+                                    application.collateralFile ? (
+                                        <Grid item xs={12}>
+                                            <CustomFormLabel htmlFor="collateral-file" sx={{ mt: 0 }}>
+                                                Collateral File
+                                            </CustomFormLabel>
+                                            <CustomTextField
+                                                id="collateral-file"
+                                                placeholder="Collateral file"
+                                                fullWidth
+                                                value={JSON.parse(application.collateralFile).originalname}
+                                                InputProps={{ readOnly: true }} />
+                                            <FileReader id="collateral-file" file={JSON.parse(application.collateralFile)} />
+                                        </Grid>) :
+                                        <Grid item xs={12}>
+                                            <CustomFormLabel htmlFor="collateral-file" sx={{ mt: 0 }}>
+                                                Collateral File
+                                            </CustomFormLabel>
+                                            <CustomTextField
+                                                id="collateral-file"
+                                                placeholder="Collateral file"
+                                                fullWidth
+                                                value="None"
+                                                InputProps={{ readOnly: true }} />
+                                        </Grid>
+                                }
+                                {application.status == "UNDER_REVIEW" ? (
+                                    <>
+                                        <Grid item xs={12} sm={10} />
+                                        <Grid item xs={12} sm={2}>
+                                            <Stack direction="row" spacing={2}>
+                                                <CustomButtonDialog
+                                                    name='Reject'
+                                                    color='error'
+                                                    title='Application Submission Confirmation'
+                                                    message='Are you sure you want to reject this application? Please confirm your action.'
+                                                    handleSuccess={handleReject}
+                                                />
+                                                <CustomButtonDialog
+                                                    name='Approve'
+                                                    color='primary'
+                                                    title='Application Submission Confirmation'
+                                                    message='Are you sure you want to approve this application? Please confirm your action.'
+                                                    handleSuccess={handleApprove} />
+                                            </Stack>
+                                        </Grid>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Grid item xs={12} sm={11} />
+                                        <Grid item xs={12} sm={1}>
+                                            <Stack direction="row" spacing={2}>
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        navigate(-1);
+                                                    }}
+                                                >
+                                                    Confirm
+                                                </Button>
+                                            </Stack>
+                                        </Grid>
+                                    </>
+                                )
+                                }
                             </Grid>
                         </AccordionDetails>
                     </Accordion>
                 </>
-            )}
+            )
+            }
         </div >
     );
 };
