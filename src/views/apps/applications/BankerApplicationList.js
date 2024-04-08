@@ -18,36 +18,48 @@ const BCrumb = [
 
 const BankerApplicationList = () => {
 
-    const [applications, setApplications] = useState([])
+    const [applications, setApplications] = useState([]);
+    const [displayedApplications, setDisplayedApplications] = useState([]);
     const [counter, setCounter] = useState({ total: 0, under_review: 0, approved: 0, rejected: 0 });
-    const [bankName, setBankName] = useState('Bank')
+    const [bankName, setBankName] = useState('Bank');
 
     useEffect(() => {
         axiosClient.get('application/banker/all')
             .then((response) => {
-                setApplications(response.data)
-                const total_apps = response.data.length;
-                const under_review_apps = response.data.filter((app) => app.status == 'UNDER_REVIEW').length;
-                const approved_apps = response.data.filter((app => app.status == 'APPROVED')).length;
-                const rejected = response.data.filter((app => app.status == 'REJECTED')).length;
-                const bankName = response.data[0].bankName
-                setCounter({
-                    total: total_apps,
-                    under_review: under_review_apps,
-                    approved: approved_apps,
-                    rejected: rejected
-                })
-                setBankName(bankName)
+                const sortedApplications = response.data.sort((a, b) => {
+                    return new Date(b.createdAt) - new Date(a.createdAt);
+                });
+                setApplications(sortedApplications);
+                setDisplayedApplications(sortedApplications);
+                updateCounter(sortedApplications);
+                setBankName(sortedApplications[0]?.bankName || 'Bank');
             })
-            .catch((error) => { console.log(error) })
-    }, [])
+            .catch((error) => { console.log(error) });
+    }, []);
+
+    const updateCounter = (data) => {
+        setCounter({
+            total: data.length,
+            under_review: data.filter(app => app.status === 'UNDER_REVIEW').length,
+            approved: data.filter(app => app.status === 'APPROVED').length,
+            rejected: data.filter(app => app.status === 'REJECTED').length
+        });
+    };
+
+    const handleFilterChange = (status) => {
+        const filtered = status
+            ? applications.filter(app => app.status === status).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            : [...applications];
+        setDisplayedApplications(filtered);
+    };
+
 
     return (
         <PageContainer title={`${bankName} Applications`} description={`${bankName} Applications`}>
             <Breadcrumb title={`${bankName} Applications`} items={BCrumb} />
             <ChildCard>
-                <ApplicationFilter counter={counter} />
-                <BankerApplicationListing applications={applications} />
+                <ApplicationFilter counter={counter} handleFilter={handleFilterChange} />
+                <BankerApplicationListing applications={displayedApplications} />
             </ChildCard>
         </PageContainer >
     );

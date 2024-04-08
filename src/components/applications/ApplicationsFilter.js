@@ -11,12 +11,12 @@ const BoxStyled = styled(Box)(() => ({
     },
 }));
 
-const ApplicationFilter = ({ counter }) => {
+const ApplicationFilter = ({ counter, handleFilter }) => {
     return (
         <Grid container spacing={3} textAlign="center">
             <Grid item xs={12} sm={6} lg={3}>
                 <BoxStyled
-                    // onClick={() => dispatch(setVisibilityFilter('total_tickets'))}
+                    onClick={() => handleFilter()}
                     sx={{ backgroundColor: 'primary.light', color: 'primary.main' }}
                 >
                     <Typography variant="h3">{counter.total}</Typography>
@@ -25,7 +25,7 @@ const ApplicationFilter = ({ counter }) => {
             </Grid>
             <Grid item xs={12} sm={6} lg={3}>
                 <BoxStyled
-                    // onClick={() => dispatch(setVisibilityFilter('Pending'))}
+                    onClick={() => handleFilter('UNDER_REVIEW')}
                     sx={{ backgroundColor: 'warning.light', color: 'warning.main' }}
                 >
                     <Typography variant="h3">{counter.under_review}</Typography>
@@ -34,7 +34,7 @@ const ApplicationFilter = ({ counter }) => {
             </Grid>
             <Grid item xs={12} sm={6} lg={3}>
                 <BoxStyled
-                    // onClick={() => dispatch(setVisibilityFilter('Open'))}
+                    onClick={() => handleFilter('APPROVED')}
                     sx={{ backgroundColor: 'success.light', color: 'success.main' }}
                 >
                     <Typography variant="h3">{counter.approved}</Typography>
@@ -43,14 +43,14 @@ const ApplicationFilter = ({ counter }) => {
             </Grid>
             <Grid item xs={12} sm={6} lg={3}>
                 <BoxStyled
-                    // onClick={() => dispatch(setVisibilityFilter('Closed'))}
+                    onClick={() => handleFilter('REJECTED')}
                     sx={{ backgroundColor: 'error.light', color: 'error.main' }}
                 >
                     <Typography variant="h3">{counter.rejected}</Typography>
                     <Typography variant="h6">Rejected</Typography>
                 </BoxStyled>
             </Grid>
-        </Grid>
+        </Grid >
     );
 };
 
