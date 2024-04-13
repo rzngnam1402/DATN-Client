@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import {
     Box,
     Table,
@@ -8,16 +8,12 @@ import {
     TableCell,
     Typography,
     TableBody,
-    IconButton,
     Chip,
     Stack,
-
-    Tooltip,
     TextField,
     Pagination,
     TableContainer,
 } from '@mui/material';
-import { IconTrash } from '@tabler/icons';
 import { formatDate } from '../../../utils/date';
 
 const ClientApplicationListing = ({ applications }) => {
@@ -96,9 +92,7 @@ const ClientApplicationListing = ({ applications }) => {
                             <TableCell>
                                 <Typography variant="h6">Date</Typography>
                             </TableCell>
-                            <TableCell align="right">
-                                <Typography variant="h6">Action</Typography>
-                            </TableCell>
+
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -140,15 +134,6 @@ const ClientApplicationListing = ({ applications }) => {
                                 </TableCell>
                                 <TableCell>
                                     <Typography>{formatDate(application.createdAt)}</Typography>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <Tooltip title="Delete Application">
-                                        <IconButton
-                                        // onClick={() => dispatch(DeleteTicket(ticket.Id))}
-                                        >
-                                            <IconTrash size="18" />
-                                        </IconButton>
-                                    </Tooltip>
                                 </TableCell>
                             </TableRow>
                         ))}

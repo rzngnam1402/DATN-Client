@@ -20,6 +20,7 @@ import FileReader from '../../../utils/file';
 import axiosClient from '../../../axios/axios';
 import { useNavigate, useParams } from 'react-router';
 import CustomButtonDialog from '../../material-ui/dialog/CustomDialog';
+import { Co2Sharp } from '@mui/icons-material';
 
 
 
@@ -34,9 +35,6 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
     });
 
     const handleToggle = (panelName) => {
-        const file = JSON.parse(application.collateralFile)
-        console.log(file)
-        console.log(application)
         setPanel((prevToggle) => ({
             ...prevToggle,
             [panelName]: !prevToggle[panelName],
@@ -47,9 +45,22 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
         axiosClient.patch(`application/${applicationId}`,
             { status: 'APPROVED' }
         )
-            .then((response) => { console.log(response) })
+            .then((response) => {
+                generateGuarantee(response.data)
+                window.location.reload()
+            })
             .catch((error) => { console.log(error) });
-        window.location.reload()
+    }
+
+    const generateGuarantee = (data) => {
+        delete data.collateralFile
+        axiosClient.post(`guarantee/create-new`, data)
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     const handleReject = () => {
