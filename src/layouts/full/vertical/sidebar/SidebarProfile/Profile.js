@@ -30,7 +30,10 @@ export const Profile = () => {
     >
       {!hideMenu ? (
         <>
-          <Avatar alt="Remy Sharp" src={img1} />
+          <Avatar
+          // alt="Remy Sharp"
+          // src={img1}
+          />
           <Box>
             <Typography style={{ display: "inline-block", whiteSpace: "pre-line" }}
               variant="h6" color="textPrimary">{user.username}</Typography>

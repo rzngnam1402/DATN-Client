@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 import { useAuth } from "../../../axios/hooks/useAuth";
 import BankerApplicationDetail from "./BankerApplicationDetail";
 
-const ApplicationDetail = () => {
+const ApplicationDetailTracking = () => {
     const { applicationId } = useParams()
     const { role } = useAuth()
     // if (role === 'CLIENT') {
@@ -14,4 +14,4 @@ const ApplicationDetail = () => {
 
 };
 
-export default ApplicationDetail;
+export default ApplicationDetailTracking;

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 
-const CustomButtonDialog = ({ name, color, title, message, handleSuccess }) => {
+const CustomButtonDialog = ({ name, color, title, message, handleSuccess, icon }) => {
 
     const [open, setOpen] = React.useState(false);
 
@@ -21,7 +21,7 @@ const CustomButtonDialog = ({ name, color, title, message, handleSuccess }) => {
     return (
         <>
             <Button variant="contained" color={color} fullWidth onClick={handleClickOpen}>
-                {name}
+                {name} {icon}
             </Button>
             <Dialog
                 open={open}

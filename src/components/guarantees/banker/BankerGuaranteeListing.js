@@ -12,12 +12,16 @@ import {
     TextField,
     Pagination,
     TableContainer,
+    Button,
 } from '@mui/material';
+import {
+    IconArrowRight,
+} from '@tabler/icons';
 import { formatDate } from '../../../utils/date';
 import { Link } from 'react-router-dom';
 
-const BankerApplicationListing = ({ applications }) => {
-    console.log(applications)
+const BankerGuaranteeListing = ({ guarantees }) => {
+    console.log(guarantees)
 
     return (
         <Box mt={4}>
@@ -33,7 +37,7 @@ const BankerApplicationListing = ({ applications }) => {
                     <TableHead>
                         <TableRow>
                             <TableCell>
-                                <Typography variant="h6">Ref. Num</Typography>
+                                <Typography variant="h6">Ref. Code</Typography>
                             </TableCell>
                             <TableCell>
                                 <Typography variant="h6">Applicant Name</Typography>
@@ -47,52 +51,59 @@ const BankerApplicationListing = ({ applications }) => {
                             <TableCell>
                                 <Typography variant="h6">Date</Typography>
                             </TableCell>
+                            <TableCell>
+                                <Typography variant="h6">Actions</Typography>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {applications.map((application) => (
+                        {guarantees.map((guarantee) => (
                             <TableRow
-                                key={application.application_id}
-                                to={`${application.application_id}`}
+                                key={guarantee.guarantee_id}
+                                to={`${guarantee.guarantee_id}`}
                                 hover
                                 component={Link}
                                 style={{ textDecoration: 'none' }}
                             >
                                 <TableCell>
                                     <Stack direction="row" gap="10px" alignItems="center">
-                                        <Typography variant="h6" fontWeight="500" >{application.application_id}</Typography>
+                                        <Typography variant="h6" fontWeight="500" >
+                                            {guarantee.guarantee_id}.{guarantee.beneficiary_detail_id}.{guarantee.applicant_detail_id}
+                                        </Typography>
                                     </Stack>
                                 </TableCell>
                                 <TableCell>
                                     <Box>
                                         <Typography variant="h6" fontWeight="500" >
-                                            {application.BeneficiaryDetail.businessName}
+                                            {guarantee.BeneficiaryDetail.businessName}
                                         </Typography>
                                     </Box>
                                 </TableCell>
                                 <TableCell>
                                     <Stack direction="row" gap="10px" alignItems="center">
-                                        <Typography variant="h6" fontWeight="500" >{application.ApplicantDetail.businessName}</Typography>
+                                        <Typography variant="h6" fontWeight="500" >{guarantee.ApplicantDetail.businessName}</Typography>
                                     </Stack>
                                 </TableCell>
                                 <TableCell>
                                     <Chip
                                         sx={{
                                             backgroundColor:
-                                                application.status === 'APPROVED'
+                                                guarantee.status === 'ISSUED'
                                                     ? (theme) => theme.palette.success.light
-                                                    : application.status === 'REJECTED'
-                                                        ? (theme) => theme.palette.error.light
-                                                        : application.status === 'UNDER_REVIEW'
-                                                            ? (theme) => theme.palette.warning.light
-                                                            : application.status === 'Moderate',
+                                                    : (theme) => theme.palette.error.light
+
                                         }}
                                         size="small"
-                                        label={application.status}
+                                        label={guarantee.status}
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <Typography>{formatDate(application.createdAt)}</Typography>
+                                    <Typography>{formatDate(guarantee.createdAt)}</Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <Button variant='contained'>Issue
+                                        <IconArrowRight />
+                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -106,4 +117,4 @@ const BankerApplicationListing = ({ applications }) => {
     );
 };
 
-export default BankerApplicationListing;
+export default BankerGuaranteeListing;

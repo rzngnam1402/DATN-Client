@@ -38,8 +38,13 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
         }
       )
       .then(({ data }) => {
-        setCredentials(data.access_token, data.role);
-        navigate("/", { replace: true });
+        if (data.status == '403') {
+          console.log(data.message)
+        }
+        else {
+          setCredentials(data.access_token, data.role);
+          navigate("/", { replace: true });
+        }
       })
       .catch((err) => {
         console.log(err.response.data.message);

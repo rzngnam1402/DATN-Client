@@ -5,7 +5,11 @@ import Loadable from '../layouts/full/shared/loadable/Loadable';
 import { SignOut } from '../views/authentication/auth1/Logout';
 import { ProtectedRoute } from './ProtectedRoute';
 import ApplicationList from '../views/apps/applications/ApplicationList';
-import ApplicationDetail from '../views/apps/applications/ApplicationDetail';
+import ApplicationDetail from '../views/apps/applications/ApplicationDetailTracking';
+import GuaranteeList from '../views/apps/guarantee/GuaranteeList';
+import GuaranteeDetail from '../views/forms/application/guaranteeDetail';
+import GuaranteeDetailTracking from '../views/apps/guarantee/GuaranteeDetail';
+import ApplicationDetailTracking from '../views/apps/applications/ApplicationDetailTracking';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -137,7 +141,9 @@ const Router = [
           { path: '/apps/email', element: <Email /> },
           { path: '/apps/tickets', element: <Tickets /> },
           { path: 'tracking/applications', element: <ApplicationList /> },
-          { path: 'tracking/applications/:applicationId', element: <ApplicationDetail /> },
+          { path: 'tracking/applications/:applicationId', element: <ApplicationDetailTracking /> },
+          { path: 'tracking/guarantees', element: <GuaranteeList /> },
+          { path: 'tracking/guarantees/:guaranteeId', element: <GuaranteeDetailTracking /> },
           { path: '/apps/contacts', element: <Contacts /> },
           { path: '/apps/ecommerce/shop', element: <Ecommerce /> },
           { path: '/apps/blog/posts', element: <Blog /> },

@@ -69,6 +69,12 @@ const BankerItems = [{
     title: 'Your Applications',
     icon: IconLayout,
     href: '/tracking/applications',
+},
+{
+    id: uniqueId(),
+    title: 'Issue Guarantee',
+    icon: IconFileDescription,
+    href: '/tracking/guarantees',
 }]
 
 const BankerItems2 = [

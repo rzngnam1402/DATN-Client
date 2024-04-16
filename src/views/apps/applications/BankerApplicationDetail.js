@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Breadcrumb from '../../../layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from '../../../components/container/PageContainer';
 import ChildCard from 'src/components/shared/ChildCard';
-import BankerApplicationCollapsible from '../../../components/forms/form-vertical/BankerApplicationCollapsible';
+import BankerApplicationCollapsible from '../../../components/applications/banker/BankerApplicationCollapsible';
 import axiosClient from '../../../axios/axios';
 
 const BCrumb = [
