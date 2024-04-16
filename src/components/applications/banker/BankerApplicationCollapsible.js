@@ -46,6 +46,14 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
         )
             .then((response) => {
                 generateGuarantee(response.data)
+            })
+            .catch((error) => { console.log(error) });
+    }
+
+    const generatePDF = (id) => {
+        axiosClient.get(`guarantee/gen-guarantee/${id}`)
+            .then((response) => {
+                console.log(response)
                 window.location.reload()
             })
             .catch((error) => { console.log(error) });
@@ -53,9 +61,10 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
 
     const generateGuarantee = (data) => {
         delete data.collateralFile
+        console.log(data)
         axiosClient.post(`guarantee/create-new`, data)
             .then((response) => {
-                console.log(response);
+                generatePDF(response.data.applicant_detail_id)
             })
             .catch((error) => {
                 console.log(error);
