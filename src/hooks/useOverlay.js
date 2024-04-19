@@ -3,8 +3,6 @@ import { useState } from 'react';
 export function useOverlay() {
     const [overlay, setOverlay] = useState(null);
 
-    console.log(overlay);
-
     function hdStopDrag(e, data) {
         let { x, y } = data;
         setOverlay((pValue) => ({ ...pValue, x, y }));

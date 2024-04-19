@@ -21,7 +21,7 @@ const CustomButtonDialog = ({ name, color, title, message, handleSuccess, icon }
     return (
         <>
             <Button variant="contained" color={color} fullWidth onClick={handleClickOpen}>
-                {name} {icon}
+                {name} &nbsp; {icon}
             </Button>
             <Dialog
                 open={open}

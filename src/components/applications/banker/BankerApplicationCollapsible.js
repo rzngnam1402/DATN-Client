@@ -350,8 +350,8 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
                                 }
                                 {application.status == "UNDER_REVIEW" ? (
                                     <>
-                                        <Grid item xs={12} sm={10} />
-                                        <Grid item xs={12} sm={2}>
+                                        <Grid item xs={12} sm={9} />
+                                        <Grid item xs={12} sm={3}>
                                             <Stack direction="row" spacing={2}>
                                                 <CustomButtonDialog
                                                     name='Reject'

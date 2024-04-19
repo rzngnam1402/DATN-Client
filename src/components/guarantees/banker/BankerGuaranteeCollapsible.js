@@ -10,7 +10,9 @@ import {
     Button,
     Box,
     Chip,
+    CircularProgress,
 } from '@mui/material';
+
 import { IconChevronDown, IconArrowRight } from '@tabler/icons';
 
 import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
@@ -32,7 +34,11 @@ import { useOverlay } from '../../../hooks/useOverlay';
 import { Rnd } from 'react-rnd';
 
 const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
+    const [isSigning, setIsSigning] = useState(false);
+    const [isIssuing, setIsIssuing] = useState(false);
+    const [user, setUser] = useState({ username: 'Username', role: 'Role', email: 'email@gmail.com', signature: 'signature' })
     const navigate = useNavigate();
+
     const fullScreenPluginInstance = fullScreenPlugin();
     const getFilePluginInstance = getFilePlugin({
         fileNameGenerator: (file) => {
@@ -51,15 +57,12 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
         panel4: true,
     });
 
-    const [userSignature, setUserSignature] = useState('')
     useEffect(() => {
-        axiosClient.get('users/signature')
-            .then((response) => {
-                setUserSignature(response.data)
+        axiosClient.get('users/me')
+            .then(({ data }) => {
+                setUser({ username: data.username, role: data.role, email: data.email, signature: data.signature });
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch((error) => console.error(error));
     }, [])
 
     const handleToggle = (panelName) => {
@@ -68,6 +71,36 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
             [panelName]: !prevToggle[panelName],
         }));
     };
+
+    const handleSign = () => {
+        setIsSigning(true);
+        axiosClient.post(`guarantee/sign/${guarantee.guarantee_id}`,
+            {
+                accountId: user.email,
+                placeholder: JSON.stringify({
+                    pageIndex: 0,
+                    x: overlay?.x - 35,
+                    y: overlay?.y,
+                    width: overlay?.width,
+                    height: overlay?.height
+                }),
+                signatureImageURL: user.signature,
+                pdfFilePath: guarantee.docURL
+            }
+        )
+            .then((response) => {
+                console.log(response)
+                setIsSigning(false);
+            })
+            .catch((error) => {
+                console.log(error)
+                setIsSigning(false);
+            })
+    }
+
+    const handleIssue = () => {
+        setIsIssuing(true);
+    }
 
     return (
         <>
@@ -323,7 +356,7 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
                         <AccordionDetails>
                             <Grid container spacing={3}>
                                 {
-                                    guarantee.docURL ? (
+                                    guarantee.docURL && !guarantee.signatureImg ? (
                                         <>
                                             <Grid item xs={12} sm={4} >
                                                 <CustomFormLabel htmlFor="sign-guarantee" sx={{ mt: 0 }}>
@@ -336,7 +369,7 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
                                                     sx={{ mt: 2 }}
                                                     onClick={() => {
                                                         setOverlay({
-                                                            signatureImageURL: userSignature,
+                                                            signatureImageURL: user.signature,
                                                             x: 0,
                                                             y: 0,
                                                             width: 200,
@@ -365,7 +398,7 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
                                                                 }}>
                                                                 <img
                                                                     draggable="false"
-                                                                    src={userSignature}
+                                                                    src={user.signature}
                                                                     style={{
                                                                         width: '100%',
                                                                         height: '100%',
@@ -380,7 +413,6 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
                                                         fileUrl={guarantee.docURL}
                                                         plugins={[fullScreenPluginInstance, getFilePluginInstance]}
                                                     />
-
                                                     <Box name="pdf-button"
                                                         sx={{
                                                             display: 'flex',
@@ -394,39 +426,97 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
                                             </Grid>
                                         </>
                                     ) :
-                                        <></>
+                                        <>
+                                            <Grid item xs={12} sm={2} >
+
+                                            </Grid>
+                                            <Grid item xs={12} sm={8} alignItems="center">
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        mt: 3,
+                                                    }}
+                                                >
+                                                    {
+                                                        overlay && (
+                                                            <Rnd
+                                                                bounds="parent"
+                                                                size={{ width: overlay?.width, height: overlay?.height }}
+                                                                position={{ x: overlay?.x, y: overlay?.y }}
+                                                                onDragStop={hdStopDrag}
+                                                                onResizeStop={hdStopResize}
+                                                                style={{
+                                                                    zIndex: '999',
+                                                                    border: '1px solid'
+                                                                }}>
+                                                                <img
+                                                                    draggable="false"
+                                                                    src={user.signature}
+                                                                    style={{
+                                                                        width: '100%',
+                                                                        height: '100%',
+                                                                        margin: 'auto',
+                                                                        zIndex: '999',
+                                                                    }}
+                                                                />
+                                                            </Rnd>
+                                                        )
+                                                    }
+                                                    <Viewer
+                                                        fileUrl={guarantee.docURL}
+                                                        plugins={[fullScreenPluginInstance, getFilePluginInstance]}
+                                                    />
+                                                    <Box name="pdf-button"
+                                                        sx={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            mt: 3,
+                                                        }}>
+                                                        <EnterFullScreenButton />
+                                                        <DownloadButton />
+                                                    </Box>
+                                                </Box>
+                                            </Grid></>
                                 }
-                                {guarantee.status == "NOT_ISSUED" ? (
+                                {guarantee.signatureImg ? (
                                     <>
                                         <Grid item xs={12} sm={9} />
                                         <Grid item xs={12} sm={3}>
                                             <Stack direction="row" spacing={2}>
                                                 <CustomButtonDialog
-                                                    name='Issue this guarantee'
+                                                    name={isIssuing ? 'Issuing...' : 'Issue this guarantee'}
                                                     color='primary'
                                                     title='eGuarantee Insurance Confirmation'
-                                                    message='Are you sure you want to issue this application? Please confirm your action.'
-                                                    // handleSuccess={handleApprove} 
-                                                    icon={<IconArrowRight />}
+                                                    message='Are you sure you want to issue this guarantee? Please confirm your action.'
+                                                    handleSuccess={handleIssue}
+                                                    icon={isIssuing ?
+                                                        <CircularProgress
+                                                            color='secondary'
+                                                            size={24}
+                                                        /> : <IconArrowRight />}
+                                                    disabled={isIssuing}
                                                 />
                                             </Stack>
                                         </Grid>
                                     </>
                                 ) : (
                                     <>
-                                        <Grid item xs={12} sm={11} />
-                                        <Grid item xs={12} sm={1}>
+                                        <Grid item xs={12} sm={9} />
+                                        <Grid item xs={12} sm={3}>
                                             <Stack direction="row" spacing={2}>
-                                                <Button
-                                                    variant="contained"
-                                                    color="primary"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        navigate(-1);
-                                                    }}
-                                                >
-                                                    Confirm
-                                                </Button>
+                                                <CustomButtonDialog
+                                                    name={isSigning ? 'Signing...' : 'Sign this guarantee'}
+                                                    color='primary'
+                                                    title='eGuarantee Signing Confirmation'
+                                                    message='Are you sure you want to sign this guarantee? Please confirm your action.'
+                                                    handleSuccess={handleSign}
+                                                    icon={isSigning ?
+                                                        <CircularProgress
+                                                            color='secondary'
+                                                            size={24}
+                                                        /> : <IconArrowRight />}
+                                                    disabled={isSigning}
+                                                />
                                             </Stack>
                                         </Grid>
                                     </>
