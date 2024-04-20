@@ -100,6 +100,18 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
 
     const handleIssue = () => {
         setIsIssuing(true);
+        axiosClient.patch(`guarantee/${guarantee.guarantee_id}`,
+            { status: 'ISSUED' }
+        )
+            .then((response) => {
+                // send email api
+                console.log(response)
+                setIsSigning(false);
+            })
+            .catch((error) => {
+                console.log(error)
+                setIsSigning(false);
+            });
     }
 
     return (

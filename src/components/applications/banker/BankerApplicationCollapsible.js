@@ -8,9 +8,10 @@ import {
     Stack,
     Button,
     Box,
-    Chip
+    Chip,
+    CircularProgress
 } from '@mui/material';
-import { IconChevronDown } from '@tabler/icons';
+import { IconArrowRight, IconChevronDown } from '@tabler/icons';
 
 import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 import CustomTextField from '../../forms/theme-elements/CustomTextField';
@@ -21,9 +22,8 @@ import axiosClient from '../../../axios/axios';
 import { useNavigate, useParams } from 'react-router';
 import CustomButtonDialog from '../../material-ui/dialog/CustomDialog';
 
-
-
 const BankerApplicationCollapsible = ({ application = {} }) => {
+    const [isApproving, setIsApproving] = useState(false);
     const navigate = useNavigate();
 
     const { applicationId } = useParams()
@@ -41,22 +41,29 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
     };
 
     const handleApprove = () => {
+        setIsApproving(true);
         axiosClient.patch(`application/${applicationId}`,
             { status: 'APPROVED' }
         )
             .then((response) => {
                 generateGuarantee(response.data)
             })
-            .catch((error) => { console.log(error) });
+            .catch((error) => {
+                console.log(error)
+            });
     }
 
     const generatePDF = (id) => {
         axiosClient.get(`guarantee/gen-guarantee/${id}`)
             .then((response) => {
                 console.log(response)
+                setIsApproving(false);
                 window.location.reload()
             })
-            .catch((error) => { console.log(error) });
+            .catch((error) => {
+                console.log(error)
+                setIsApproving(false);
+            });
     }
 
     const generateGuarantee = (data) => {
@@ -350,8 +357,8 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
                                 }
                                 {application.status == "UNDER_REVIEW" ? (
                                     <>
-                                        <Grid item xs={12} sm={9} />
-                                        <Grid item xs={12} sm={3}>
+                                        <Grid item xs={12} sm={8} />
+                                        <Grid item xs={12} sm={4}>
                                             <Stack direction="row" spacing={2}>
                                                 <CustomButtonDialog
                                                     name='Reject'
@@ -361,11 +368,18 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
                                                     handleSuccess={handleReject}
                                                 />
                                                 <CustomButtonDialog
-                                                    name='Approve'
+                                                    name={isApproving ? 'Approving...' : 'Approve'}
                                                     color='primary'
                                                     title='Application Submission Confirmation'
                                                     message='Are you sure you want to approve this application? Please confirm your action.'
-                                                    handleSuccess={handleApprove} />
+                                                    handleSuccess={handleApprove}
+                                                    icon={isApproving ?
+                                                        <CircularProgress
+                                                            color='secondary'
+                                                            size={24}
+                                                        /> : <IconArrowRight />}
+                                                    disabled={isApproving}
+                                                />
                                             </Stack>
                                         </Grid>
                                     </>
