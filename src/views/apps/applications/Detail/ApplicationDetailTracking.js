@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { useAuth } from "../../../axios/hooks/useAuth";
+import { useAuth } from "../../../../axios/hooks/useAuth";
 import BankerApplicationDetail from "./BankerApplicationDetail";
 
 const ApplicationDetailTracking = () => {

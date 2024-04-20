@@ -75,13 +75,13 @@ const BankerGuaranteeListing = ({ guarantees }) => {
                                 <TableCell>
                                     <Box>
                                         <Typography variant="h6" fontWeight="500" >
-                                            {guarantee.BeneficiaryDetail.businessName}
+                                            {guarantee.ApplicantDetail.businessName}
                                         </Typography>
                                     </Box>
                                 </TableCell>
                                 <TableCell>
                                     <Stack direction="row" gap="10px" alignItems="center">
-                                        <Typography variant="h6" fontWeight="500" >{guarantee.ApplicantDetail.businessName}</Typography>
+                                        <Typography variant="h6" fontWeight="500" >{guarantee.BeneficiaryDetail.businessName}</Typography>
                                     </Stack>
                                 </TableCell>
                                 <TableCell>

@@ -4,12 +4,10 @@ import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
 import { SignOut } from '../views/authentication/auth1/Logout';
 import { ProtectedRoute } from './ProtectedRoute';
-import ApplicationList from '../views/apps/applications/ApplicationList';
-import ApplicationDetail from '../views/apps/applications/ApplicationDetailTracking';
-import GuaranteeList from '../views/apps/guarantee/GuaranteeList';
-import GuaranteeDetail from '../views/forms/application/guaranteeDetail';
-import GuaranteeDetailTracking from '../views/apps/guarantee/GuaranteeDetail';
-import ApplicationDetailTracking from '../views/apps/applications/ApplicationDetailTracking';
+import GuaranteeDetailTracking from '../views/apps/guarantee/Detail/GuaranteeDetail';
+import ApplicationDetailTracking from '../views/apps/applications/Detail/ApplicationDetailTracking';
+import ApplicationList from '../views/apps/applications/List/ApplicationList';
+import GuaranteeList from '../views/apps/guarantee/List/GuaranteeList';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -27,7 +25,6 @@ const Email = Loadable(lazy(() => import('../views/apps/email/Email')));
 const Blog = Loadable(lazy(() => import('../views/apps/blog/Blog')));
 const BlogDetail = Loadable(lazy(() => import('../views/apps/blog/BlogPost')));
 const Tickets = Loadable(lazy(() => import('../views/apps/tickets/Tickets')));
-const ClientApplicationList = Loadable(lazy(() => import('../views/apps/applications/ClientApplicationList')));
 const Contacts = Loadable(lazy(() => import('../views/apps/contacts/Contacts')));
 const Ecommerce = Loadable(lazy(() => import('../views/apps/eCommerce/Ecommerce')));
 const EcommerceDetail = Loadable(lazy(() => import('../views/apps/eCommerce/EcommerceDetail')));

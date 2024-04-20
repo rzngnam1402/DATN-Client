@@ -89,8 +89,9 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
             }
         )
             .then((response) => {
-                console.log(response)
+                console.log(response);
                 setIsSigning(false);
+                window.location.reload();
             })
             .catch((error) => {
                 console.log(error)
@@ -105,8 +106,9 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
         )
             .then((response) => {
                 // send email api
-                console.log(response)
                 setIsSigning(false);
+                window.location.reload()
+
             })
             .catch((error) => {
                 console.log(error)
@@ -490,49 +492,65 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
                                                 </Box>
                                             </Grid></>
                                 }
-                                {guarantee.signatureImg ? (
-                                    <>
-                                        <Grid item xs={12} sm={9} />
-                                        <Grid item xs={12} sm={3}>
+                                {guarantee.signatureImg && guarantee.status == 'ISSUED' ?
+                                    (<>
+                                        <Grid item xs={12} sm={11} />
+                                        <Grid item xs={12} sm={1}>
                                             <Stack direction="row" spacing={2}>
-                                                <CustomButtonDialog
-                                                    name={isIssuing ? 'Issuing...' : 'Issue this guarantee'}
-                                                    color='primary'
-                                                    title='eGuarantee Insurance Confirmation'
-                                                    message='Are you sure you want to issue this guarantee? Please confirm your action.'
-                                                    handleSuccess={handleIssue}
-                                                    icon={isIssuing ?
-                                                        <CircularProgress
-                                                            color='secondary'
-                                                            size={24}
-                                                        /> : <IconArrowRight />}
-                                                    disabled={isIssuing}
-                                                />
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        navigate(-1);
+                                                    }}
+                                                >
+                                                    Confirm
+                                                </Button>
                                             </Stack>
                                         </Grid>
-                                    </>
-                                ) : (
-                                    <>
-                                        <Grid item xs={12} sm={9} />
-                                        <Grid item xs={12} sm={3}>
-                                            <Stack direction="row" spacing={2}>
-                                                <CustomButtonDialog
-                                                    name={isSigning ? 'Signing...' : 'Sign this guarantee'}
-                                                    color='primary'
-                                                    title='eGuarantee Signing Confirmation'
-                                                    message='Are you sure you want to sign this guarantee? Please confirm your action.'
-                                                    handleSuccess={handleSign}
-                                                    icon={isSigning ?
-                                                        <CircularProgress
-                                                            color='secondary'
-                                                            size={24}
-                                                        /> : <IconArrowRight />}
-                                                    disabled={isSigning}
-                                                />
-                                            </Stack>
-                                        </Grid>
-                                    </>
-                                )
+                                    </>) :
+                                    guarantee.signatureImg && guarantee.status == 'NOT_ISSUED' ?
+                                        (<>
+                                            <Grid item xs={12} sm={9} />
+                                            <Grid item xs={12} sm={3}>
+                                                <Stack direction="row" spacing={2}>
+                                                    <CustomButtonDialog
+                                                        name={isIssuing ? 'Issuing...' : 'Issue this guarantee'}
+                                                        color='primary'
+                                                        title='eGuarantee Insurance Confirmation'
+                                                        message='Are you sure you want to issue this guarantee? Please confirm your action.'
+                                                        handleSuccess={handleIssue}
+                                                        icon={isIssuing ?
+                                                            <CircularProgress
+                                                                color='secondary'
+                                                                size={24}
+                                                            /> : <IconArrowRight />}
+                                                        disabled={isIssuing}
+                                                    />
+                                                </Stack>
+                                            </Grid>
+                                        </>) :
+                                        (<>
+                                            <Grid item xs={12} sm={9} />
+                                            <Grid item xs={12} sm={3}>
+                                                <Stack direction="row" spacing={2}>
+                                                    <CustomButtonDialog
+                                                        name={isSigning ? 'Signing...' : 'Sign this guarantee'}
+                                                        color='primary'
+                                                        title='eGuarantee Signing Confirmation'
+                                                        message='Are you sure you want to sign this guarantee? Please confirm your action.'
+                                                        handleSuccess={handleSign}
+                                                        icon={isSigning ?
+                                                            <CircularProgress
+                                                                color='secondary'
+                                                                size={24}
+                                                            /> : <IconArrowRight />}
+                                                        disabled={isSigning}
+                                                    />
+                                                </Stack>
+                                            </Grid>
+                                        </>)
                                 }
                             </Grid>
                         </AccordionDetails>

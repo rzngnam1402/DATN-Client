@@ -1,11 +1,10 @@
-import Breadcrumb from '../../../layouts/full/shared/breadcrumb/Breadcrumb';
-import PageContainer from '../../../components/container/PageContainer';
+import Breadcrumb from '../../../../layouts/full/shared/breadcrumb/Breadcrumb';
+import PageContainer from '../../../../components/container/PageContainer';
 import ChildCard from 'src/components/shared/ChildCard';
+import ApplicationFilter from '../../../../components/applications/ApplicationsFilter';
 import { useEffect, useState } from 'react';
-import axiosClient from '../../../axios/axios';
-import ApplicationFilter from '../../../components/applications/ApplicationsFilter';
-import ClientApplicationListing from '../../../components/applications/client/ClientApplicationsListing';
-
+import axiosClient from '../../../../axios/axios';
+import BankerApplicationListing from '../../../../components/applications/banker/BankerApplicationsListing';
 
 const BCrumb = [
     {
@@ -17,15 +16,15 @@ const BCrumb = [
     },
 ];
 
-const ClientApplicationList = () => {
+const BankerApplicationList = () => {
 
     const [applications, setApplications] = useState([]);
     const [displayedApplications, setDisplayedApplications] = useState([]);
     const [counter, setCounter] = useState({ total: 0, under_review: 0, approved: 0, rejected: 0 });
-
+    const [bankName, setBankName] = useState('Bank');
 
     useEffect(() => {
-        axiosClient.get('application/user/all')
+        axiosClient.get('application/banker/all')
             .then((response) => {
                 const sortedApplications = response.data.sort((a, b) => {
                     return new Date(b.createdAt) - new Date(a.createdAt);
@@ -33,6 +32,7 @@ const ClientApplicationList = () => {
                 setApplications(sortedApplications);
                 setDisplayedApplications(sortedApplications);
                 updateCounter(sortedApplications);
+                setBankName(sortedApplications[0]?.bankName || 'Bank');
             })
             .catch((error) => { console.log(error) });
     }, []);
@@ -55,14 +55,14 @@ const ClientApplicationList = () => {
 
 
     return (
-        <PageContainer title="Your Applications" description="Your Applications">
-            <Breadcrumb title="Your Applications" items={BCrumb} />
+        <PageContainer title={`${bankName} Applications`} description={`${bankName} Applications`}>
+            <Breadcrumb title={`${bankName} Applications`} items={BCrumb} />
             <ChildCard>
                 <ApplicationFilter counter={counter} handleFilter={handleFilterChange} />
-                <ClientApplicationListing applications={displayedApplications} />
+                <BankerApplicationListing applications={displayedApplications} />
             </ChildCard>
-        </PageContainer>
+        </PageContainer >
     );
 };
 
-export default ClientApplicationList;
+export default BankerApplicationList;
