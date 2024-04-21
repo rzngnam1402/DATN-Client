@@ -75,7 +75,18 @@ const BankerItems = [{
     title: 'Issue Guarantee',
     icon: IconFileDescription,
     href: '/tracking/guarantees',
-}]
+},
+{
+    navlabel: true,
+    subheader: 'Settings',
+},
+{
+    id: uniqueId(),
+    title: 'FAQ',
+    icon: IconHelp,
+    href: '/pages/faq',
+},
+]
 
 const BankerItems2 = [
     {

@@ -44,7 +44,7 @@ const Pricing = Loadable(lazy(() => import('../views/pages/pricing/Pricing')));
 const AccountSetting = Loadable(
   lazy(() => import('../views/pages/account-setting/AccountSetting')),
 );
-const Faq = Loadable(lazy(() => import('../views/pages/faq/Faq')));
+const Faq = Loadable(lazy(() => import('../views/apps/faq/Faq')));
 
 // widget
 const WidgetCards = Loadable(lazy(() => import('../views/widgets/cards/WidgetCards')));
