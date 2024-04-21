@@ -14,7 +14,9 @@ import {
     Pagination,
     TableContainer,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { formatDate } from '../../../utils/date';
+
 
 const ClientApplicationListing = ({ applications }) => {
     console.log(applications)
@@ -97,7 +99,11 @@ const ClientApplicationListing = ({ applications }) => {
                     </TableHead>
                     <TableBody>
                         {applications.map((application) => (
-                            <TableRow key={application.application_id} hover>
+                            <TableRow key={application.application_id}
+                                to={`${application.application_id}`}
+                                hover
+                                component={Link}
+                            >
                                 <TableCell>{application.application_id}</TableCell>
                                 <TableCell>
                                     <Box>
