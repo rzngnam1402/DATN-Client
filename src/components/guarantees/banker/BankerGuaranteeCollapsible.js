@@ -36,6 +36,7 @@ import { Rnd } from 'react-rnd';
 const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
     const [isSigning, setIsSigning] = useState(false);
     const [isIssuing, setIsIssuing] = useState(false);
+    const [isSendingEmail, setIsSendingEmail] = useState(false);
     const [user, setUser] = useState({ username: 'Username', role: 'Role', email: 'email@gmail.com', signature: 'signature' })
     const navigate = useNavigate();
 
@@ -105,7 +106,6 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
             { status: 'ISSUED' }
         )
             .then((response) => {
-                // send email api
                 setIsSigning(false);
                 window.location.reload()
 
@@ -113,6 +113,22 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
             .catch((error) => {
                 console.log(error)
                 setIsSigning(false);
+            });
+    }
+
+    const handleSendNotification = () => {
+        setIsSendingEmail(true);
+        axiosClient.post('guarantee/email',
+            {
+                guaranteeId: guarantee.guarantee_id,
+            })
+            .then((response) => {
+                console.log(response)
+                setIsSendingEmail(false);
+            })
+            .catch((error) => {
+                console.log(error)
+                setIsSendingEmail(false);
             });
     }
 
@@ -494,21 +510,45 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
                                 }
                                 {guarantee.signatureImg && guarantee.status == 'ISSUED' ?
                                     (<>
-                                        <Grid item xs={12} sm={11} />
-                                        <Grid item xs={12} sm={1}>
-                                            <Stack direction="row" spacing={2}>
-                                                <Button
-                                                    variant="contained"
-                                                    color="primary"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        navigate(-1);
-                                                    }}
-                                                >
-                                                    Confirm
-                                                </Button>
-                                            </Stack>
+                                        <Grid container justifyContent="flex-end">
+                                            <Grid item sx={{
+                                                mt: 3,
+                                            }}>
+                                                <Stack direction="row" spacing={2}>
+                                                    <Button
+                                                        variant="outlined"
+                                                        onClick={handleSendNotification}
+                                                        sx={{
+                                                            color: "primary",
+                                                            backgroundColor: "white",
+                                                            "&:hover": {
+                                                                backgroundColor: "white",
+                                                                color: "#4570EA",
+                                                            }
+                                                        }}>
+                                                        {isSendingEmail ?
+                                                            <>
+                                                                Sending...
+                                                                < CircularProgress
+                                                                    color='primary'
+                                                                    size={24} />
+                                                            </>
+                                                            : 'Send Notification'}
+                                                    </Button>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="primary"
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            navigate(-1);
+                                                        }}
+                                                    >
+                                                        Confirm
+                                                    </Button>
+                                                </Stack>
+                                            </Grid>
                                         </Grid>
+
                                     </>) :
                                     guarantee.signatureImg && guarantee.status == 'NOT_ISSUED' ?
                                         (<>
