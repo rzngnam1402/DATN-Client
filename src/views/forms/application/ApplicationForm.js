@@ -12,10 +12,6 @@ import {
 
 import PageContainer from '../../../components/container/PageContainer';
 import Breadcrumb from '../../../layouts/full/shared/breadcrumb/Breadcrumb';
-import Autocomplete from '@mui/material/Autocomplete';
-import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
-import CustomCheckbox from '../../../components/forms/theme-elements/CustomCheckbox';
-import CustomFormLabel from '../../../components/forms/theme-elements/CustomFormLabel';
 import ParentCard from '../../../components/shared/ParentCard';
 import { Stack } from '@mui/system';
 import ApplicantDetails from './ApplicantDetails';

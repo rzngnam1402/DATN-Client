@@ -7,9 +7,6 @@ import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 import CustomSelect from '../../forms/theme-elements/CustomSelect';
 
-// images
-import user1 from 'src/assets/images/profile/user-1.jpg';
-
 // locations
 const locations = [
   {
@@ -77,8 +74,6 @@ const AccountTab = () => {
             <Box textAlign="center" display="flex" justifyContent="center">
               <Box>
                 <Avatar
-                  src={user1}
-                  alt={user1}
                   sx={{ width: 120, height: 120, margin: '0 auto' }}
                 />
                 <Stack direction="row" justifyContent="center" spacing={2} my={3}>

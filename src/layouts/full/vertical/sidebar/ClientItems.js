@@ -1,6 +1,7 @@
 import {
   IconFileDescription,
   IconAperture,
+  IconUserCircle,
   IconLayout,
   IconHelp
 } from '@tabler/icons';
@@ -15,11 +16,9 @@ const ClientItems = [
   },
   {
     id: uniqueId(),
-    title: 'Dashboard',
-    icon: IconAperture,
-    href: '/dashboards/modern',
-    chip: 'New',
-    chipColor: 'secondary',
+    title: 'Account Setting',
+    icon: IconUserCircle,
+    href: '/account-settings',
   },
   {
     id: uniqueId(),
@@ -41,7 +40,7 @@ const ClientItems = [
     id: uniqueId(),
     title: 'FAQ',
     icon: IconHelp,
-    href: '/pages/faq',
+    href: '/faq',
   },
 ]
 

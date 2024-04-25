@@ -2,8 +2,6 @@ import React from 'react';
 import { Box } from '@mui/system';
 import CustomFormLabel from '../../../components/forms/theme-elements/CustomFormLabel';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
-import { Button } from '@mui/material';
-
 
 const ApplicantDetails = ({ formData, setFormData }) => {
   const handleChange = (e) => {
