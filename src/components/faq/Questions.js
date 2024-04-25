@@ -20,9 +20,7 @@ const Questions = () => {
             <Divider />
             <AccordionDetails>
               <Typography variant="subtitle1" pt={1} px={2} color="textSecondary">
-                Admin Dashboard is the backend interface of a website or an application that helps
-                to manage the website&apos;s overall content and settings. It is widely used by the site
-                owners to keep track of their website, make changes to their content, and more.
+                A bank guarantee is a promise from a lending institution that ensures the debtor&apos;s liabilities are covered in the event that the debtor fails to fulfill the contractual obligations to a third party. Bank guarantees help businesses gain credibility by showing they are financially stable enough to meet their contractual obligations.
               </Typography>
             </AccordionDetails>
           </Accordion>
