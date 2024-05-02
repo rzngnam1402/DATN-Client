@@ -20,7 +20,7 @@ import { formatMoney } from '../../../utils/money';
 import FileReader from '../../../utils/file';
 import axiosClient from '../../../axios/axios';
 import { useNavigate, useParams } from 'react-router';
-import CustomButtonDialog from '../../material-ui/dialog/CustomDialog';
+import CustomButtonDialog from '../../dialog/CustomButtonDialog';
 
 const BankerApplicationCollapsible = ({ application = {} }) => {
     const [isApproving, setIsApproving] = useState(false);

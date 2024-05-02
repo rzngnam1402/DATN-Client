@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import Breadcrumb from '../../../../layouts/full/shared/breadcrumb/Breadcrumb';
-import PageContainer from '../../../../components/container/PageContainer';
+import Breadcrumb from '../../../layouts/full/shared/breadcrumb/Breadcrumb';
+import PageContainer from '../../../components/container/PageContainer';
 import ChildCard from 'src/components/shared/ChildCard';
-import axiosClient from '../../../../axios/axios';
-import BankerGuaranteeCollapsible from '../../../../components/guarantees/banker/BankerGuaranteeCollapsible';
+import axiosClient from '../../../axios/axios';
+import BankerGuaranteeCollapsible from '../../../components/guarantees/banker/BankerGuaranteeCollapsible';
 
 const BCrumb = [
     {

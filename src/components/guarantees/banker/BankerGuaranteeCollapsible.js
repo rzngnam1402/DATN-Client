@@ -17,7 +17,6 @@ import { IconChevronDown, IconArrowRight } from '@tabler/icons';
 
 import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 import CustomTextField from '../../forms/theme-elements/CustomTextField';
-import CustomButtonDialog from '../../material-ui/dialog/CustomDialog';
 
 import { formatDate } from '../../../utils/date';
 import { formatMoney } from '../../../utils/money';
@@ -32,12 +31,22 @@ import axiosClient from '../../../axios/axios';
 
 import { useOverlay } from '../../../hooks/useOverlay';
 import { Rnd } from 'react-rnd';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUser } from '../../../store/user/UserSlice';
+import CustomButtonDialog from '../../dialog/CustomButtonDialog';
 
 const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.user.user);
+    const status = useSelector(state => state.user.status);
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchUser());
+        }
+    }, [status, dispatch]);
     const [isSigning, setIsSigning] = useState(false);
     const [isIssuing, setIsIssuing] = useState(false);
     const [isSendingEmail, setIsSendingEmail] = useState(false);
-    const [user, setUser] = useState({ username: 'Username', role: 'Role', email: 'email@gmail.com', signature: 'signature' })
     const navigate = useNavigate();
 
     const fullScreenPluginInstance = fullScreenPlugin();
@@ -57,14 +66,6 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
         panel3: false,
         panel4: true,
     });
-
-    useEffect(() => {
-        axiosClient.get('users/me')
-            .then(({ data }) => {
-                setUser({ username: data.username, role: data.role, email: data.email, signature: data.signature });
-            })
-            .catch((error) => console.error(error));
-    }, [])
 
     const handleToggle = (panelName) => {
         setPanel((prevToggle) => ({
@@ -393,7 +394,7 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
                                                     Choose your signature
                                                 </CustomFormLabel>
                                                 <Typography>
-                                                    Place your signature and select issue this button below
+                                                    Place your signature and select &quot;Sign this guarantee&quot; button below
                                                 </Typography>
                                                 <Button
                                                     sx={{ mt: 2 }}
