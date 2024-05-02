@@ -13,12 +13,6 @@ const BankerItems = [{
 },
 {
     id: uniqueId(),
-    title: 'Account Setting',
-    icon: IconUserCircle,
-    href: '/account-settings',
-},
-{
-    id: uniqueId(),
     title: 'Your Applications',
     icon: IconLayout,
     href: '/tracking/applications',
@@ -38,6 +32,12 @@ const BankerItems = [{
     title: 'FAQ',
     icon: IconHelp,
     href: '/faq',
+},
+{
+    id: uniqueId(),
+    title: 'Account Setting',
+    icon: IconUserCircle,
+    href: '/account-settings',
 },
 ]
 export default BankerItems;

@@ -1,25 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Box, Avatar, Typography, IconButton, Tooltip, useMediaQuery } from '@mui/material';
-import { useSelector } from 'react-redux';
-import img1 from 'src/assets/images/profile/user-1.jpg';
+import { useDispatch, useSelector } from 'react-redux';
 import { IconPower } from '@tabler/icons';
 import { Link } from "react-router-dom";
-import axiosClient from '../../../../../axios/axios';
+import { fetchUser } from '../../../../../store/user/UserSlice';
 
 export const Profile = () => {
+  const dispatch = useDispatch();
   const customizer = useSelector((state) => state.customizer);
+  const user = useSelector(state => state.user.user);
+  const status = useSelector(state => state.user.status);
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchUser());
+    }
+  }, [status, dispatch]);
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const hideMenu = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
-
-  const [user, setUser] = useState({ username: 'Username', role: 'Role' })
-
-  useEffect(() => {
-    axiosClient.get('users/me')
-      .then(({ data }) => {
-        setUser({ username: data.username, role: data.role })
-      })
-      .catch((error) => console.error(error));
-  }, [])
 
   return (
     <Box

@@ -3,15 +3,23 @@ import { Link } from 'react-router-dom';
 import { Box, Menu, Avatar, Typography, Divider, Button, IconButton } from '@mui/material';
 import * as dropdownData from './data';
 
-import { IconMail } from '@tabler/icons';
 import { Stack } from '@mui/system';
 
-import ProfileImg from 'src/assets/images/profile/user-1.jpg';
-import unlimitedImg from 'src/assets/images/backgrounds/unlimited-bg.png';
 import Scrollbar from 'src/components/custom-scroll/Scrollbar';
 import axiosClient from '../../../../axios/axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUser } from '../../../../store/user/UserSlice';
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user.user);
+  const status = useSelector(state => state.user.status);
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchUser());
+    }
+  }, [status, dispatch]);
+
   const [anchorEl2, setAnchorEl2] = useState(null);
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
@@ -19,16 +27,6 @@ const Profile = () => {
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
-
-  const [user, setUser] = useState({ username: 'Username', role: 'Role', email: 'email@gmail.com' })
-
-  useEffect(() => {
-    axiosClient.get('users/me')
-      .then(({ data }) => {
-        setUser({ username: data.username, role: data.role, email: data.email });
-      })
-      .catch((error) => console.error(error));
-  }, [])
 
   return (
     <Box>
@@ -81,7 +79,7 @@ const Profile = () => {
                 sx={{ width: 95, height: 95 }} />
               <Box>
                 <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
-                  {user.username}
+                  {user && user.username}
                 </Typography>
                 <Typography variant="subtitle2" color="textSecondary">
                   {user.role}
