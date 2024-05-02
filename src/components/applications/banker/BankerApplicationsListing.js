@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     Table,
@@ -17,7 +17,15 @@ import { formatDate } from '../../../utils/date';
 import { Link } from 'react-router-dom';
 
 const BankerApplicationListing = ({ applications }) => {
-    console.log(applications)
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 5;
+    const indexOfLastItem = page * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = applications.slice(indexOfFirstItem, indexOfLastItem);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
     return (
         <Box mt={4}>
@@ -35,11 +43,15 @@ const BankerApplicationListing = ({ applications }) => {
                             <TableCell>
                                 <Typography variant="h6">Ref. Num</Typography>
                             </TableCell>
-                            <TableCell>
-                                <Typography variant="h6">Applicant Name</Typography>
+                            <TableCell style={{ width: '300px' }}>
+                                <Typography variant="h6" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                    Applicant Name
+                                </Typography>
                             </TableCell>
-                            <TableCell>
-                                <Typography variant="h6">Beneficiary Name</Typography>
+                            <TableCell style={{ width: '300px' }}>
+                                <Typography variant="h6" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                    Beneficiary Name
+                                </Typography>
                             </TableCell>
                             <TableCell>
                                 <Typography variant="h6">Status</Typography>
@@ -50,7 +62,7 @@ const BankerApplicationListing = ({ applications }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {applications.map((application) => (
+                        {currentItems.map((application) => (
                             <TableRow
                                 key={application.application_id}
                                 to={`${application.application_id}`}
@@ -60,20 +72,18 @@ const BankerApplicationListing = ({ applications }) => {
                             >
                                 <TableCell>
                                     <Stack direction="row" gap="10px" alignItems="center">
-                                        <Typography variant="h6" fontWeight="500" >{application.application_id}</Typography>
+                                        <Typography variant="h6" fontWeight="500">{application.application_id}</Typography>
                                     </Stack>
                                 </TableCell>
-                                <TableCell>
-                                    <Box>
-                                        <Typography variant="h6" fontWeight="500" >
-                                            {application.ApplicantDetail.businessName}
-                                        </Typography>
-                                    </Box>
+                                <TableCell style={{ maxWidth: '300px' }}>
+                                    <Typography variant="h6" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                        {application.ApplicantDetail.businessName}
+                                    </Typography>
                                 </TableCell>
-                                <TableCell>
-                                    <Stack direction="row" gap="10px" alignItems="center">
-                                        <Typography variant="h6" fontWeight="500" >{application.BeneficiaryDetail.businessName}</Typography>
-                                    </Stack>
+                                <TableCell style={{ maxWidth: '300px' }}>
+                                    <Typography variant="h6" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                        {application.BeneficiaryDetail.businessName}
+                                    </Typography>
                                 </TableCell>
                                 <TableCell>
                                     <Chip
@@ -100,7 +110,12 @@ const BankerApplicationListing = ({ applications }) => {
                 </Table>
             </TableContainer>
             <Box my={3} display="flex" justifyContent={'center'}>
-                <Pagination count={10} color="primary" />
+                <Pagination
+                    count={Math.ceil(applications.length / itemsPerPage)}
+                    page={page}
+                    onChange={handleChangePage}
+                    color="primary"
+                />
             </Box>
         </Box>
     );

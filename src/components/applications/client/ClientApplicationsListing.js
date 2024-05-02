@@ -1,5 +1,4 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import {
     Box,
     Table,
@@ -19,50 +18,15 @@ import { formatDate } from '../../../utils/date';
 
 
 const ClientApplicationListing = ({ applications }) => {
-    console.log(applications)
-    const getVisibleTickets = (tickets, filter, ticketSearch) => {
-        switch (filter) {
-            case 'total_tickets':
-                return tickets.filter(
-                    (c) => !c.deleted && c.ticketTitle.toLocaleLowerCase().includes(ticketSearch),
-                );
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 5;
+    const indexOfLastItem = page * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = applications.slice(indexOfFirstItem, indexOfLastItem);
 
-            case 'Pending':
-                return tickets.filter(
-                    (c) =>
-                        !c.deleted &&
-                        c.Status === 'Pending' &&
-                        c.ticketTitle.toLocaleLowerCase().includes(ticketSearch),
-                );
-
-            case 'Closed':
-                return tickets.filter(
-                    (c) =>
-                        !c.deleted &&
-                        c.Status === 'Closed' &&
-                        c.ticketTitle.toLocaleLowerCase().includes(ticketSearch),
-                );
-
-            case 'Open':
-                return tickets.filter(
-                    (c) =>
-                        !c.deleted &&
-                        c.Status === 'Open' &&
-                        c.ticketTitle.toLocaleLowerCase().includes(ticketSearch),
-                );
-
-            default:
-                throw new Error(`Unknown filter: ${filter}`);
-        }
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
     };
-
-    const tickets = useSelector((state) =>
-        getVisibleTickets(
-            state.ticketReducer.tickets,
-            state.ticketReducer.currentFilter,
-            state.ticketReducer.ticketSearch,
-        ),
-    );
     return (
         <Box mt={4}>
             <Box sx={{ maxWidth: '260px', ml: 'auto' }} mb={3}>
@@ -79,11 +43,23 @@ const ClientApplicationListing = ({ applications }) => {
                             <TableCell>
                                 <Typography variant="h6">Ref. Num</Typography>
                             </TableCell>
-                            <TableCell>
-                                <Typography variant="h6">Applicant Name</Typography>
+                            <TableCell style={{ maxWidth: '200px' }}>
+                                <Typography variant="h6"
+                                    style={{
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                    }}
+                                >Applicant Name</Typography>
                             </TableCell>
-                            <TableCell>
-                                <Typography variant="h6">Beneficiary Name</Typography>
+                            <TableCell style={{ maxWidth: '200px' }}>
+                                <Typography variant="h6"
+                                    style={{
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                    }}
+                                >Beneficiary Name</Typography>
                             </TableCell>
                             <TableCell>
                                 <Typography variant="h6">Bank Name</Typography>
@@ -98,24 +74,31 @@ const ClientApplicationListing = ({ applications }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {applications.map((application) => (
+                        {currentItems.map((application) => (
                             <TableRow key={application.application_id}
                                 to={`${application.application_id}`}
                                 hover
                                 component={Link}
+                                style={{ textDecoration: 'none' }}
                             >
                                 <TableCell>{application.application_id}</TableCell>
-                                <TableCell>
-                                    <Box>
-                                        <Typography variant="h6" fontWeight="500" >
-                                            {application.ApplicantDetail.businessName}
-                                        </Typography>
-                                    </Box>
+                                <TableCell style={{ maxWidth: '200px' }}>
+                                    <Typography variant="h6" fontWeight="500"
+                                        style={{
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                        {application.ApplicantDetail.businessName}
+                                    </Typography>
                                 </TableCell>
-                                <TableCell>
-                                    <Stack direction="row" gap="10px" alignItems="center">
-                                        <Typography variant="h6" fontWeight="500" >{application.BeneficiaryDetail.businessName}</Typography>
-                                    </Stack>
+                                <TableCell style={{ maxWidth: '200px' }}>
+                                    <Typography variant="h6" fontWeight="500"
+                                        style={{
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }} >{application.BeneficiaryDetail.businessName}</Typography>
                                 </TableCell>
                                 <TableCell>
                                     <Stack direction="row" gap="10px" alignItems="center">
@@ -147,7 +130,12 @@ const ClientApplicationListing = ({ applications }) => {
                 </Table>
             </TableContainer>
             <Box my={3} display="flex" justifyContent={'center'}>
-                <Pagination count={10} color="primary" />
+                <Pagination
+                    count={Math.ceil(applications.length / itemsPerPage)}
+                    page={page}
+                    onChange={handleChangePage}
+                    color="primary"
+                />
             </Box>
         </Box>
     );
