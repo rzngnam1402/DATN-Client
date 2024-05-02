@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     Table,
@@ -21,7 +21,16 @@ import { formatDate } from '../../../utils/date';
 import { Link } from 'react-router-dom';
 
 const BankerGuaranteeListing = ({ guarantees }) => {
-    console.log(guarantees)
+    const [page, setPage] = useState(1);
+
+    const itemsPerPage = 5;
+    const indexOfLastItem = page * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = guarantees.slice(indexOfFirstItem, indexOfLastItem);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
     return (
         <Box mt={4}>
@@ -40,10 +49,18 @@ const BankerGuaranteeListing = ({ guarantees }) => {
                                 <Typography variant="h6">Ref. Code</Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography variant="h6">Applicant Name</Typography>
+                                <Typography
+                                    variant="h6"
+                                    style={{ maxWidth: '200px' }}
+                                > Applicant Name
+                                </Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography variant="h6">Beneficiary Name</Typography>
+                                <Typography
+                                    variant="h6"
+                                    style={{ maxWidth: '200px' }}
+                                > Beneficiary Name
+                                </Typography>
                             </TableCell>
                             <TableCell>
                                 <Typography variant="h6">Status</Typography>
@@ -57,7 +74,7 @@ const BankerGuaranteeListing = ({ guarantees }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {guarantees.map((guarantee) => (
+                        {currentItems.map((guarantee) => (
                             <TableRow
                                 key={guarantee.guarantee_id}
                                 to={`${guarantee.guarantee_id}`}
@@ -72,16 +89,21 @@ const BankerGuaranteeListing = ({ guarantees }) => {
                                         </Typography>
                                     </Stack>
                                 </TableCell>
-                                <TableCell>
-                                    <Box>
-                                        <Typography variant="h6" fontWeight="500" >
-                                            {guarantee.ApplicantDetail.businessName}
-                                        </Typography>
-                                    </Box>
+                                <TableCell style={{ maxWidth: '200px' }}>
+                                    <Typography
+                                        variant="h6"
+                                        fontWeight="500"
+                                        style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                        {guarantee.ApplicantDetail.businessName}
+                                    </Typography>
                                 </TableCell>
-                                <TableCell>
+                                <TableCell style={{ maxWidth: '200px' }}>
                                     <Stack direction="row" gap="10px" alignItems="center">
-                                        <Typography variant="h6" fontWeight="500" >{guarantee.BeneficiaryDetail.businessName}</Typography>
+                                        <Typography variant="h6"
+                                            fontWeight="500"
+                                            style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                            {guarantee.BeneficiaryDetail.businessName}
+                                        </Typography>
                                     </Stack>
                                 </TableCell>
                                 <TableCell>
@@ -111,9 +133,14 @@ const BankerGuaranteeListing = ({ guarantees }) => {
                 </Table>
             </TableContainer>
             <Box my={3} display="flex" justifyContent={'center'}>
-                <Pagination count={10} color="primary" />
+                <Pagination
+                    count={Math.ceil(guarantees.length / itemsPerPage)}
+                    page={page}
+                    onChange={handleChangePage}
+                    color="primary"
+                />
             </Box>
-        </Box>
+        </Box >
     );
 };
 
