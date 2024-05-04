@@ -53,7 +53,6 @@ const Router = [
           { path: '/faq', element: <Faq /> },
           { path: '/forms/application-form', element: <ApplicationForm /> },
           { path: '*', element: <Navigate to="/auth/404" /> },
-
         ],
       }
     ],

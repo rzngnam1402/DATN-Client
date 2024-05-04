@@ -1,6 +1,6 @@
 import {
   IconFileDescription,
-  IconAperture,
+  IconFileCheck,
   IconUserCircle,
   IconLayout,
   IconHelp
@@ -16,15 +16,15 @@ const ClientItems = [
   },
   {
     id: uniqueId(),
-    title: 'Account Setting',
-    icon: IconUserCircle,
-    href: '/account-settings',
-  },
-  {
-    id: uniqueId(),
     title: 'Your Applications',
     icon: IconLayout,
     href: '/tracking/applications',
+  },
+  {
+    id: uniqueId(),
+    title: 'Your Guarantees',
+    icon: IconFileCheck,
+    href: '/tracking/guarantees',
   },
   {
     id: uniqueId(),
@@ -35,6 +35,12 @@ const ClientItems = [
   {
     navlabel: true,
     subheader: 'Settings',
+  },
+  {
+    id: uniqueId(),
+    title: 'Account Setting',
+    icon: IconUserCircle,
+    href: '/account-settings',
   },
   {
     id: uniqueId(),
