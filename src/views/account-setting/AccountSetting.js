@@ -14,7 +14,7 @@ import SecurityTab from '../../components/pages/account-setting/SecurityTab';
 const BCrumb = [
   {
     to: '/',
-    title: 'Home',
+    title: 'Settings',
   },
   {
     title: 'Account Setting',

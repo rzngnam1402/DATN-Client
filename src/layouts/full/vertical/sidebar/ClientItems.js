@@ -12,7 +12,7 @@ import { uniqueId } from 'lodash';
 const ClientItems = [
   {
     navlabel: true,
-    subheader: 'Home',
+    subheader: 'Applications',
   },
   {
     id: uniqueId(),
@@ -22,15 +22,25 @@ const ClientItems = [
   },
   {
     id: uniqueId(),
+    title: 'Create new eGuarantee',
+    icon: IconFileDescription,
+    href: '/forms/application-form',
+  },
+  {
+    navlabel: true,
+    subheader: 'Guarantees',
+  },
+  {
+    id: uniqueId(),
     title: 'Your Guarantees',
     icon: IconFileCheck,
     href: '/tracking/guarantees',
   },
   {
     id: uniqueId(),
-    title: 'Create new eGuarantee',
+    title: 'Indemnity Request',
     icon: IconFileDescription,
-    href: '/forms/application-form',
+    href: '/indemnity',
   },
   {
     navlabel: true,

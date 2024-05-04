@@ -9,7 +9,7 @@ import StillQuestions from '../../components/pages/faq/StillQuestions';
 const BCrumb = [
   {
     to: '/',
-    title: 'Home',
+    title: 'Settings',
   },
   {
     title: 'FAQ',

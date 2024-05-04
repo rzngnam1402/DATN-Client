@@ -9,10 +9,10 @@ import BankerGuaranteeListing from '../../../components/guarantees/banker/Banker
 const BCrumb = [
     {
         to: '/',
-        title: 'Home',
+        title: 'Guarantee',
     },
     {
-        title: 'Guarantees',
+        title: 'Guarantees list',
     },
 ];
 

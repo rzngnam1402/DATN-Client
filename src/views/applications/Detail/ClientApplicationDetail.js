@@ -8,7 +8,7 @@ import ClientApplicationCollapsible from '../../../components/applications/clien
 const BCrumb = [
     {
         to: '/',
-        title: 'Home',
+        title: 'Applications',
     },
     {
         title: 'Application details',

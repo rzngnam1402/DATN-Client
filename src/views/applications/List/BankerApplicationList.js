@@ -9,7 +9,7 @@ import BankerApplicationListing from '../../../components/applications/banker/Ba
 const BCrumb = [
     {
         to: '/',
-        title: 'Home',
+        title: 'Applications',
     },
     {
         title: 'Applications',

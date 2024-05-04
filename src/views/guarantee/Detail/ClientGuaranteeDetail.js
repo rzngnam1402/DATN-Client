@@ -8,7 +8,7 @@ import ClientGuaranteeCollapsible from '../../../components/guarantees/client/Cl
 const BCrumb = [
     {
         to: '/',
-        title: 'Home',
+        title: 'Guarantees',
     },
     {
         title: 'Issue Guarantee',

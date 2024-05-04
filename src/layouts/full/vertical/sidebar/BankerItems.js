@@ -9,13 +9,17 @@ import { uniqueId } from 'lodash';
 
 const BankerItems = [{
     navlabel: true,
-    subheader: 'Home',
+    subheader: 'Applications',
 },
 {
     id: uniqueId(),
     title: 'Your Applications',
     icon: IconLayout,
     href: '/tracking/applications',
+},
+{
+    navlabel: true,
+    subheader: 'Guarantees',
 },
 {
     id: uniqueId(),

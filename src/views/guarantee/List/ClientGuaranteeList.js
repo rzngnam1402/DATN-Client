@@ -9,10 +9,10 @@ import ClientGuaranteeListing from '../../../components/guarantees/client/Client
 const BCrumb = [
     {
         to: '/',
-        title: 'Home',
+        title: 'Guaratantee',
     },
     {
-        title: 'Guarantees',
+        title: 'Guarantees list',
     },
 ];
 

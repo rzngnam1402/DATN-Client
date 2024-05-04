@@ -10,10 +10,10 @@ import ClientApplicationListing from '../../../components/applications/client/Cl
 const BCrumb = [
     {
         to: '/',
-        title: 'Home',
+        title: 'Applications',
     },
     {
-        title: 'Applications',
+        title: 'Applications list',
     },
 ];
 

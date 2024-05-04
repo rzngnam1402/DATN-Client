@@ -8,7 +8,7 @@ import BankerGuaranteeCollapsible from '../../../components/guarantees/banker/Ba
 const BCrumb = [
     {
         to: '/',
-        title: 'Home',
+        title: 'Guarantees',
     },
     {
         title: 'Issue Guarantee',

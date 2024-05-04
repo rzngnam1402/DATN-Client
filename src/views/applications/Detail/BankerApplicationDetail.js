@@ -8,7 +8,7 @@ import axiosClient from '../../../axios/axios';
 const BCrumb = [
     {
         to: '/',
-        title: 'Home',
+        title: 'Applications',
     },
     {
         title: 'Application details',
