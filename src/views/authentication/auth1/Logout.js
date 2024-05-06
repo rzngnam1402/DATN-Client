@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../axios/hooks/useAuth";
+import { useAuth } from "../../../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../../../store/user/UserSlice";
 

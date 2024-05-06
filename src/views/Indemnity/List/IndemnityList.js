@@ -1,4 +1,4 @@
-import { useAuth } from "../../../axios/hooks/useAuth";
+import { useAuth } from "../../../hooks/useAuth";
 import ClientIndemnityList from "./ClientIndemnityList";
 
 const IndemnityList = () => {

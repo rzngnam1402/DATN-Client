@@ -14,7 +14,7 @@ import {
 import { IconSearch, IconX } from '@tabler/icons';
 import CustomTextField from 'src/components/forms/theme-elements/CustomTextField';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../../../axios/hooks/useAuth';
+import { useAuth } from '../../../../hooks/useAuth';
 import ClientItems from '../sidebar/ClientItems';
 import BankerItems from '../sidebar/BankerItems';
 

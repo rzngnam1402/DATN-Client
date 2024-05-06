@@ -1,4 +1,4 @@
-import { useAuth } from "../../../axios/hooks/useAuth";
+import { useAuth } from "../../../hooks/useAuth";
 import ClientApplicationListing from './ClientApplicationList'
 import BankerApplicationList from './BankerApplicationList'
 

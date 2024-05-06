@@ -15,7 +15,7 @@ import CustomTextField from '../../../components/forms/theme-elements/CustomText
 import CustomFormLabel from '../../../components/forms/theme-elements/CustomFormLabel';
 
 import AuthSocialButtons from './AuthSocialButtons';
-import { useAuth } from '../../../axios/hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 import axiosClient from '../../../axios/axios';
 
 const AuthLogin = ({ title, subtitle, subtext }) => {

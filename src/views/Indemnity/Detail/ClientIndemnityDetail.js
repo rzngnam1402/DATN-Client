@@ -3,7 +3,6 @@ import Breadcrumb from '../../../layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from '../../../components/container/PageContainer';
 import ChildCard from 'src/components/shared/ChildCard';
 import axiosClient from '../../../axios/axios';
-import ClientGuaranteeCollapsible from '../../../components/guarantees/client/ClientGuaranteeCollapsible';
 import ClientIndemnityCollapsible from '../../../components/indemnity/client/ClientIndemnityCollapsible';
 
 const BCrumb = [
@@ -36,7 +35,6 @@ const ClientIndemnityDetail = ({ indemnityId }) => {
                 <ClientIndemnityCollapsible indemnity={indemnity} />
             </ChildCard>
         </PageContainer >
-
     )
 }
 
