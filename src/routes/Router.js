@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
 import { SignOut } from '../views/authentication/auth1/Logout';
 import { ProtectedRoute } from './ProtectedRoute';
+import IndemnityDetailTracking from '../views/Indemnity/Detail/IndemnityDetail';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -23,6 +24,10 @@ const GuaranteeDetailTracking = Loadable(lazy(() => import('../views/guarantee/D
 const ApplicationDetailTracking = Loadable(lazy(() => import('../views/applications/Detail/ApplicationDetailTracking')));
 const ApplicationList = Loadable(lazy(() => import('../views/applications/List/ApplicationList')));
 const ApplicationForm = Loadable(lazy(() => import('../views/forms/application/ApplicationForm')));
+
+// Indemnity
+const IndemnityList = Loadable(lazy(() => import('../views/Indemnity/List/IndemnityList')))
+const IndemnityRequest = Loadable(lazy(() => import('../views/Indemnity/List/IndemnityList')))
 
 // authentication
 const Login = Loadable(lazy(() => import('../views/authentication/auth1/Login')));
@@ -49,6 +54,8 @@ const Router = [
           { path: 'tracking/applications/:applicationId', element: <ApplicationDetailTracking /> },
           { path: 'tracking/guarantees', element: <GuaranteeList /> },
           { path: 'tracking/guarantees/:guaranteeId', element: <GuaranteeDetailTracking /> },
+          { path: 'indemnity', element: <IndemnityList /> },
+          { path: 'indemnity/:indemnityId', element: <IndemnityDetailTracking /> },
           { path: '/account-settings', element: <AccountSetting /> },
           { path: '/faq', element: <Faq /> },
           { path: '/forms/application-form', element: <ApplicationForm /> },

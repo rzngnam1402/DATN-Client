@@ -37,11 +37,16 @@ const ClientItems = [
     href: '/tracking/guarantees',
   },
   {
+    navlabel: true,
+    subheader: 'Indemnities',
+  },
+  {
     id: uniqueId(),
-    title: 'Indemnity Request',
-    icon: IconFileDescription,
+    title: 'Your Indemnities',
+    icon: IconLayout,
     href: '/indemnity',
   },
+
   {
     navlabel: true,
     subheader: 'Settings',

@@ -270,7 +270,7 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
                                         InputProps={{ readOnly: true }} />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <CustomFormLabel htmlFor="effective-date" sx={{ mt: 0 }}>
+                                    <CustomFormLabel htmlFor="status" sx={{ mt: 0 }}>
                                         Status
                                     </CustomFormLabel>
                                     <Chip

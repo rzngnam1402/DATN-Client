@@ -9,35 +9,18 @@ import {
     Stack,
     Button,
     Box,
-    Chip,
 } from '@mui/material';
 
 import { IconChevronDown } from '@tabler/icons';
-
-import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
-import CustomTextField from '../../forms/theme-elements/CustomTextField';
-
-import { formatDate } from '../../../utils/date';
-import { formatMoney } from '../../../utils/money';
 
 import { Viewer } from '@react-pdf-viewer/core';
 import { fullScreenPlugin } from '@react-pdf-viewer/full-screen';
 import { getFilePlugin } from '@react-pdf-viewer/get-file';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/full-screen/lib/styles/index.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchUser } from '../../../store/user/UserSlice';
 import GuaranteeInfoPanel from '../GuaranteeInfoPanel';
 
 const ClientGuaranteeCollapsible = ({ guarantee = {} }) => {
-    const dispatch = useDispatch();
-    const user = useSelector(state => state.user.user);
-    const status = useSelector(state => state.user.status);
-    useEffect(() => {
-        if (status === 'idle') {
-            dispatch(fetchUser());
-        }
-    }, [status, dispatch]);
     const navigate = useNavigate();
 
     const fullScreenPluginInstance = fullScreenPlugin();
