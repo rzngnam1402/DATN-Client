@@ -37,7 +37,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                                 id="applicant-business-name"
                                 placeholder="Applicant Business Name"
                                 fullWidth
-                                value={guarantee.ApplicantDetail.businessName}
+                                value={guarantee?.ApplicantDetail?.businessName}
                                 InputProps={{ readOnly: true }}
                             />
                         </Grid>
@@ -50,7 +50,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                             <CustomTextField
                                 id="business-registration-number"
                                 placeholder="Business Registration Number"
-                                value={guarantee.ApplicantDetail.businessRegistrationNumber}
+                                value={guarantee?.ApplicantDetail?.businessRegistrationNumber}
                                 InputProps={{ readOnly: true }}
                                 fullWidth />
                         </Grid>
@@ -62,7 +62,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                                 id="applicant-email"
                                 placeholder="Email"
                                 fullWidth
-                                value={guarantee.ApplicantDetail.applicantEmail}
+                                value={guarantee?.ApplicantDetail?.applicantEmail}
                                 InputProps={{ readOnly: true }}
                             />
                         </Grid>
@@ -73,7 +73,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                             <CustomTextField
                                 id="applicant-debit-account"
                                 placeholder="Debit Account Number"
-                                value={guarantee.ApplicantDetail.debitAccountNo}
+                                value={guarantee?.ApplicantDetail?.debitAccountNo}
                                 InputProps={{ readOnly: true }}
                                 fullWidth />
                         </Grid>
@@ -84,7 +84,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                             <CustomTextField
                                 id="applicant-contact-person"
                                 placeholder="Contact person"
-                                value={guarantee.ApplicantDetail.contactPersonName}
+                                value={guarantee?.ApplicantDetail?.contactPersonName}
                                 InputProps={{ readOnly: true }}
                                 fullWidth />
                         </Grid>
@@ -95,7 +95,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                             <CustomTextField
                                 id="citizen-id"
                                 placeholder="citizen-id"
-                                value={guarantee.ApplicantDetail.citizenID}
+                                value={guarantee?.ApplicantDetail?.citizenID}
                                 InputProps={{ readOnly: true }}
                                 fullWidth />
                         </Grid>
@@ -107,7 +107,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                                 multiline
                                 id="applicant-business-address"
                                 placeholder="Applicant Business Address"
-                                value={guarantee.ApplicantDetail.businessAddress}
+                                value={guarantee?.ApplicantDetail?.businessAddress}
                                 InputProps={{ readOnly: true }}
                                 fullWidth />
                         </Grid>
@@ -132,7 +132,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                                 id="beneficiary-business-name"
                                 placeholder="Beneficiary Business Name"
                                 fullWidth
-                                value={guarantee.BeneficiaryDetail.businessName}
+                                value={guarantee?.BeneficiaryDetail?.businessName}
                                 InputProps={{ readOnly: true }}
                             />
                         </Grid>
@@ -145,7 +145,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                             <CustomTextField
                                 id="beneficiary-business-registration-number"
                                 placeholder="Beneficiary Business Registration Number"
-                                value={guarantee.BeneficiaryDetail.businessRegistrationNumber}
+                                value={guarantee?.BeneficiaryDetail?.businessRegistrationNumber}
                                 InputProps={{ readOnly: true }}
                                 fullWidth />
                         </Grid>
@@ -157,7 +157,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                                 id="beneficiary-email"
                                 placeholder="Email"
                                 fullWidth
-                                value={guarantee.BeneficiaryDetail.email}
+                                value={guarantee?.BeneficiaryDetail?.email}
                                 InputProps={{ readOnly: true }}
                             />
                         </Grid>
@@ -169,7 +169,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                                 multiline
                                 id="beneficiary-business-address"
                                 placeholder="Applicant Business Address"
-                                value={guarantee.BeneficiaryDetail.businessAddress}
+                                value={guarantee?.BeneficiaryDetail?.businessAddress}
                                 InputProps={{ readOnly: true }}
                                 fullWidth />
                         </Grid>
@@ -194,7 +194,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                                 id="money-amount"
                                 placeholder="Money amount"
                                 fullWidth
-                                value={formatMoney(guarantee.amount, guarantee.currency)}
+                                value={formatMoney(guarantee?.amount, guarantee?.currency)}
                                 InputProps={{ readOnly: true }} />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -204,12 +204,12 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                             <Chip
                                 sx={{
                                     backgroundColor:
-                                        guarantee.status === 'ISSUED'
+                                        guarantee?.status === 'ISSUED'
                                             ? (theme) => theme.palette.success.light
                                             : (theme) => theme.palette.error.light
                                 }}
                                 size=""
-                                label={guarantee.status}
+                                label={guarantee?.status}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -223,7 +223,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                                             id="start-date"
                                             placeholder="Start date"
                                             fullWidth
-                                            value={formatDate(guarantee.startDate)}
+                                            value={formatDate(guarantee?.startDate)}
                                             InputProps={{ readOnly: true }} />
                                     </Grid>
                                 </Grid>
@@ -237,7 +237,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                                 id="expiry-date"
                                 placeholder="expiry Date"
                                 fullWidth
-                                value={formatDate(guarantee.expiryDate)}
+                                value={formatDate(guarantee?.expiryDate)}
                                 InputProps={{ readOnly: true }} />
                         </Grid>
 
@@ -250,7 +250,7 @@ const GuaranteeInfoPanel = ({ panel, handleToggle, guarantee }) => {
                                 placeholder="Guarantee Purpose"
                                 multiline
                                 fullWidth
-                                value={guarantee.purpose}
+                                value={guarantee?.purpose}
                                 InputProps={{ readOnly: true }} />
                         </Grid>
 

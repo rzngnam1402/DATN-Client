@@ -46,7 +46,12 @@ const ClientItems = [
     icon: IconLayout,
     href: '/indemnity',
   },
-
+  {
+    id: uniqueId(),
+    title: 'Create new Indemnity',
+    icon: IconFileDescription,
+    href: '/forms/indemnity-form',
+  },
   {
     navlabel: true,
     subheader: 'Settings',

@@ -5,6 +5,7 @@ import Loadable from '../layouts/full/shared/loadable/Loadable';
 import { SignOut } from '../views/authentication/auth1/Logout';
 import { ProtectedRoute } from './ProtectedRoute';
 import IndemnityDetailTracking from '../views/Indemnity/Detail/IndemnityDetail';
+import IndemnityForm from '../views/forms/indemnity/IndemnityForm';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -59,6 +60,7 @@ const Router = [
           { path: '/account-settings', element: <AccountSetting /> },
           { path: '/faq', element: <Faq /> },
           { path: '/forms/application-form', element: <ApplicationForm /> },
+          { path: '/forms/indemnity-form', element: <IndemnityForm /> },
           { path: '*', element: <Navigate to="/auth/404" /> },
         ],
       }
