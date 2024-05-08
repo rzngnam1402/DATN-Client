@@ -6,6 +6,9 @@ import { Box, Stack } from '@mui/system';
 import { Alert, Button, Step, StepLabel, Stepper } from '@mui/material';
 import CheckDetail from './CheckDetail';
 import IndemnityRequest from './IndemnityRequest';
+import IndemnityTermAndCondition from './IndemnityTermAndCondition';
+import axiosClient from '../../../axios/axios';
+import { toast } from 'react-toastify';
 
 const steps = ['Check your Guarantee Detail', 'Fill the form', 'Finish'];
 
@@ -55,10 +58,36 @@ const IndemnityForm = () => {
             case 1:
                 return (
                     <IndemnityRequest formData={formData} setFormData={setFormData} />);
+            case 2:
+                return (
+                    <IndemnityTermAndCondition />);
             default:
                 break;
         }
     };
+
+    const handleSubmitApplication = () => {
+        const payload = {
+            guarantee_id: formData?.guarantee.guarantee_id?.toString(),
+            reason: formData?.reason
+        }
+        axiosClient.post('indemnity/create-new',
+            payload
+        )
+            .then((response) => {
+                toast.success('Indemnity created successfully')
+                handleNext()
+            })
+            .catch((error) => {
+                toast.error(error.message)
+            })
+    }
+
+    console.log({
+        guarantee_id: formData.guarantee.guarantee_id,
+        reason: formData.reason
+    })
+
     return (
         <PageContainer>
             <Breadcrumb
@@ -114,7 +143,7 @@ const IndemnityForm = () => {
 
                             {activeStep === steps.length - 1 ?
                                 <Button
-                                    // onClick={handleSubmitApplication}
+                                    onClick={handleSubmitApplication}
                                     variant="contained"
                                     color={'success'}
                                 >

@@ -29,7 +29,22 @@ const CheckDetail = ({ formData, setFormData }) => {
         const guaranteeId = guaranteeCode.match(/\d+/);  // This regex matches the first sequence of digit characters
         axiosClient.get('guarantee/' + guaranteeId)
             .then((response) => {
-                if (response.data.status == 'ISSUED') {
+                console.log(response.data)
+
+                if (response.data.Indemnity) {
+                    toast.error('Guarantee already have indemnity!', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                    return;
+                }
+                else if (response.data.status == 'ISSUED') {
                     setFormData({ ...formData, guarantee: response.data });
                 }
                 else {

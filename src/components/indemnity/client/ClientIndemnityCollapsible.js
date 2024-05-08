@@ -85,24 +85,6 @@ const ClientIndemnityCollapsible = ({ indemnity = {} }) => {
                                 </Box>
                             </Box>
                         </Grid>
-                        <Grid container justifyContent="flex-end">
-                            <Grid item sx={{
-                                mt: 3,
-                            }}>
-                                <Stack direction="row" spacing={2}>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            navigate(-1);
-                                        }}
-                                    >
-                                        Confirm
-                                    </Button>
-                                </Stack>
-                            </Grid>
-                        </Grid>
                     </Grid>
                 </AccordionDetails>
             </Accordion>
@@ -124,7 +106,7 @@ const ClientIndemnityCollapsible = ({ indemnity = {} }) => {
                                 id="Reference Code"
                                 placeholder="Reference Code"
                                 fullWidth
-                                value={`${indemnity.indemnity_id}-${guarantee?.ApplicantDetail.applicant_detail_id}-${guarantee?.BeneficiaryDetail.beneficiary_detail_id}`}
+                                value={`${guarantee?.guarantee_id}-${guarantee?.ApplicantDetail.applicant_detail_id}-${guarantee?.BeneficiaryDetail.beneficiary_detail_id}`}
                                 InputProps={{ readOnly: true }}
                             />
                         </Grid>
@@ -170,6 +152,24 @@ const ClientIndemnityCollapsible = ({ indemnity = {} }) => {
                                 fullWidth
                                 value={indemnity.reason}
                                 InputProps={{ readOnly: true }} />
+                        </Grid>
+                        <Grid container justifyContent="flex-end">
+                            <Grid item sx={{
+                                mt: 3,
+                            }}>
+                                <Stack direction="row" spacing={2}>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            navigate(-1);
+                                        }}
+                                    >
+                                        Confirm
+                                    </Button>
+                                </Stack>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </AccordionDetails>
