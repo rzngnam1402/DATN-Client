@@ -17,6 +17,7 @@ import CustomFormLabel from '../../../components/forms/theme-elements/CustomForm
 import AuthSocialButtons from './AuthSocialButtons';
 import { useAuth } from '../../../hooks/useAuth';
 import axiosClient from '../../../axios/axios';
+import { toast } from 'react-toastify';
 
 const AuthLogin = ({ title, subtitle, subtext }) => {
   const { setCredentials } = useAuth();
@@ -39,7 +40,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
       )
       .then(({ data }) => {
         if (data.status == '403') {
-          console.log(data.message)
+          toast.error(data.message);
         }
         else {
           setCredentials(data.access_token, data.role);
