@@ -28,7 +28,6 @@ const ApplicationForm = Loadable(lazy(() => import('../views/forms/application/A
 
 // Indemnity
 const IndemnityList = Loadable(lazy(() => import('../views/Indemnity/List/IndemnityList')))
-const IndemnityRequest = Loadable(lazy(() => import('../views/Indemnity/List/IndemnityList')))
 
 // authentication
 const Login = Loadable(lazy(() => import('../views/authentication/auth1/Login')));

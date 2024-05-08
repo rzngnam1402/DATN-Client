@@ -29,6 +29,16 @@ const BankerItems = [{
 },
 {
     navlabel: true,
+    subheader: 'Indemnities',
+},
+{
+    id: uniqueId(),
+    title: 'Your Indemnities',
+    icon: IconLayout,
+    href: '/indemnity',
+},
+{
+    navlabel: true,
     subheader: 'Settings',
 },
 {

@@ -12,11 +12,13 @@ import {
     TextField,
     Pagination,
     TableContainer,
+    Button,
 } from '@mui/material';
 import { formatDate } from '../../../utils/date';
 import { Link } from 'react-router-dom';
+import { IconArrowRight } from '@tabler/icons';
 
-const ClientIndemnityListing = ({ indemnities }) => {
+const BankerIndemnityListing = ({ indemnities }) => {
     const [page, setPage] = useState(1);
 
     const itemsPerPage = 5;
@@ -59,19 +61,14 @@ const ClientIndemnityListing = ({ indemnities }) => {
                                 </Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography
-                                    variant="h6"
-                                    style={{ maxWidth: '200px' }}
-                                > Bank Name
-                                </Typography>
-                            </TableCell>
-                            <TableCell>
                                 <Typography variant="h6">Status</Typography>
                             </TableCell>
                             <TableCell>
                                 <Typography variant="h6">Date</Typography>
                             </TableCell>
-
+                            <TableCell>
+                                <Typography variant="h6">Actions</Typography>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -107,15 +104,6 @@ const ClientIndemnityListing = ({ indemnities }) => {
                                         </Typography>
                                     </Stack>
                                 </TableCell>
-                                <TableCell style={{ maxWidth: '200px' }}>
-                                    <Stack direction="row" gap="10px" alignItems="center">
-                                        <Typography variant="h6"
-                                            fontWeight="500"
-                                            style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                            {indemnity.guarantee.bankName}
-                                        </Typography>
-                                    </Stack>
-                                </TableCell>
                                 <TableCell>
                                     <Chip
                                         sx={{
@@ -132,6 +120,11 @@ const ClientIndemnityListing = ({ indemnities }) => {
                                 </TableCell>
                                 <TableCell>
                                     <Typography>{formatDate(indemnity.createdAt)}</Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <Button variant='contained'>Resolve
+                                        <IconArrowRight />
+                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -150,4 +143,4 @@ const ClientIndemnityListing = ({ indemnities }) => {
     );
 };
 
-export default ClientIndemnityListing;
+export default BankerIndemnityListing;

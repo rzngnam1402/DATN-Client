@@ -10,8 +10,9 @@ import {
     Button,
     Box,
     Chip,
+    CircularProgress,
 } from '@mui/material';
-import { IconChevronDown } from '@tabler/icons';
+import { IconArrowRight, IconChevronDown } from '@tabler/icons';
 import { formatMoney } from '../../../utils/money';
 
 import { Viewer } from '@react-pdf-viewer/core';
@@ -21,9 +22,13 @@ import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/full-screen/lib/styles/index.css';
 import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 import CustomTextField from '../../forms/theme-elements/CustomTextField';
+import CustomButtonDialog from '../../dialog/CustomButtonDialog';
+import axiosClient from '../../../axios/axios';
+import { toast } from 'react-toastify';
 
 
-const ClientIndemnityCollapsible = ({ indemnity = {} }) => {
+const BankerIndemnityCollapsible = ({ indemnity = {} }) => {
+    const [isResolving, setIsResolving] = useState(false);
     const navigate = useNavigate();
     const fullScreenPluginInstance = fullScreenPlugin();
     const getFilePluginInstance = getFilePlugin({
@@ -45,6 +50,34 @@ const ClientIndemnityCollapsible = ({ indemnity = {} }) => {
         }));
     }
     const guarantee = indemnity.guarantee
+
+    const handleReject = () => {
+        axiosClient.patch(`indemnity/${indemnity.indemnity_id}`,
+            { status: 'REJECTED' }
+        )
+            .then((response) => {
+                toast.success("Indemnity rejected successfully")
+                window.location.reload()
+            })
+            .catch((error) => {
+                toast.error(error.message)
+            });
+    }
+
+    const handleResolve = () => {
+        setIsResolving(true);
+        axiosClient.patch(`indemnity/${indemnity.indemnity_id}`,
+            { status: 'FULFILLED' }
+        )
+            .then((response) => {
+                toast(response.message)
+                window.location.reload()
+            })
+            .catch((error) => {
+                toast(error.message)
+            });
+    }
+
 
     return (
         <>
@@ -151,24 +184,54 @@ const ClientIndemnityCollapsible = ({ indemnity = {} }) => {
                                 value={indemnity.reason}
                                 InputProps={{ readOnly: true }} />
                         </Grid>
-                        <Grid container justifyContent="flex-end">
-                            <Grid item sx={{
-                                mt: 3,
-                            }}>
-                                <Stack direction="row" spacing={2}>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            navigate(-1);
-                                        }}
-                                    >
-                                        Confirm
-                                    </Button>
-                                </Stack>
-                            </Grid>
-                        </Grid>
+                        {indemnity.status == "PENDING" ? (
+                            <>
+                                <Grid item xs={12} sm={8} />
+                                <Grid item xs={12} sm={4}>
+                                    <Stack direction="row" spacing={2}>
+                                        <CustomButtonDialog
+                                            name='Reject'
+                                            color='error'
+                                            title='Indemnity Request Confirmation'
+                                            message='Are you sure you want to reject this indemnity? Please confirm your action.'
+                                            handleSuccess={handleReject}
+                                        />
+                                        <CustomButtonDialog
+                                            name={isResolving ? 'Resolve...' : 'Resolve'}
+                                            color='primary'
+                                            title='Indemnity Request Confirmation'
+                                            message='Are you sure you want to resolve this application? Please confirm your action.'
+                                            handleSuccess={handleResolve}
+                                            icon={isResolving ?
+                                                <CircularProgress
+                                                    color='secondary'
+                                                    size={24}
+                                                /> : <IconArrowRight />}
+                                            disabled={isResolving}
+                                        />
+                                    </Stack>
+                                </Grid>
+                            </>
+                        ) : (
+                            <>
+                                <Grid item xs={12} sm={11} />
+                                <Grid item xs={12} sm={1}>
+                                    <Stack direction="row" spacing={2}>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                navigate(-1);
+                                            }}
+                                        >
+                                            Confirm
+                                        </Button>
+                                    </Stack>
+                                </Grid>
+                            </>
+                        )
+                        }
                     </Grid>
                 </AccordionDetails>
             </Accordion>
@@ -176,4 +239,4 @@ const ClientIndemnityCollapsible = ({ indemnity = {} }) => {
     )
 }
 
-export default ClientIndemnityCollapsible
+export default BankerIndemnityCollapsible

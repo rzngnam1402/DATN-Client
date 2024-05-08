@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
-
 import { useAuth } from "../../../hooks/useAuth";
 import ClientIndemnityDetail from "./ClientIndemnityDetail";
+import BankerIndemnityDetail from "./BankerIndemnityDetail";
 
 const IndemnityDetailTracking = () => {
     const { indemnityId } = useParams()
@@ -11,7 +11,7 @@ const IndemnityDetailTracking = () => {
 
     }
     if (role === 'BANKER') {
-        // return <BankerGuaranteeDetail guaranteeId={guaranteeId} />
+        return <BankerIndemnityDetail indemnityId={indemnityId} />
     }
 
 };

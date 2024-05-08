@@ -1,4 +1,5 @@
 import { useAuth } from "../../../hooks/useAuth";
+import BankerIndemnityList from "./BankerIndemnityList";
 import ClientIndemnityList from "./ClientIndemnityList";
 
 const IndemnityList = () => {
@@ -7,7 +8,7 @@ const IndemnityList = () => {
         return <ClientIndemnityList />
     }
     else if (role === 'BANKER') {
-        // return <BankerIndemnityList />
+        return <BankerIndemnityList />
     }
 
 };
