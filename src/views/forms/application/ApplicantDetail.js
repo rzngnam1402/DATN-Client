@@ -24,7 +24,7 @@ const validationSchema = Yup.object({
     .required('Email is required'),
 });
 
-const ApplicantDetails = ({ formData, setFormData, handleNext }) => {
+const ApplicantDetail = ({ formData, setFormData, handleNext }) => {
   const [formSaved, setFormSaved] = useState(false);
   return (
     <Box>
@@ -36,7 +36,7 @@ const ApplicantDetails = ({ formData, setFormData, handleNext }) => {
           setFormSaved(true);
         }}
       >
-        {({ errors, touched, isValid, handleChange, handleBlur, handleSubmit }) => (
+        {({ errors, touched, handleChange, handleBlur, handleSubmit }) => (
           <Form>
             <Box pt={3}>
               <CustomFormLabel htmlFor="businessName">Business Name</CustomFormLabel>
@@ -155,4 +155,4 @@ const ApplicantDetails = ({ formData, setFormData, handleNext }) => {
   );
 };
 
-export default ApplicantDetails;
+export default ApplicantDetail;

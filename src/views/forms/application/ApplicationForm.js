@@ -6,7 +6,6 @@ import {
     StepLabel,
     Button,
     Typography,
-    FormControlLabel,
     Alert,
 } from '@mui/material';
 
@@ -14,7 +13,7 @@ import PageContainer from '../../../components/container/PageContainer';
 import Breadcrumb from '../../../layouts/full/shared/breadcrumb/Breadcrumb';
 import ParentCard from '../../../components/shared/ParentCard';
 import { Stack } from '@mui/system';
-import ApplicantDetails from './ApplicantDetails';
+import ApplicantDetail from './ApplicantDetail';
 import BeneficiaryDetail from './BeneficiaryDetail';
 import GuaranteeDetail from './guaranteeDetail';
 import TermAndConditions from './TermAndConditions';
@@ -102,15 +101,26 @@ const ApplicationForm = () => {
         switch (step) {
             case 0:
                 return (
-                    <ApplicantDetails formData={formData} setFormData={setFormData} handleNext={handleNext} />
+                    <ApplicantDetail
+                        formData={formData}
+                        setFormData={setFormData}
+                        handleNext={handleNext} />
                 );
             case 1:
                 return (
-                    <BeneficiaryDetail formData={formData} setFormData={setFormData} />
+                    <BeneficiaryDetail
+                        formData={formData}
+                        setFormData={setFormData}
+                        handleNext={handleNext}
+                        handleBack={handleBack} />
                 );
             case 2:
                 return (
-                    <GuaranteeDetail formData={formData} setFormData={setFormData} />
+                    <GuaranteeDetail
+                        formData={formData}
+                        setFormData={setFormData}
+                        handleNext={handleNext}
+                        handleBack={handleBack} />
                 );
             case 3:
                 return (
@@ -156,7 +166,6 @@ const ApplicationForm = () => {
                         <>
                             <Stack spacing={2} mt={3}>
                                 <Alert severity='success' mt={2}>All steps completed - you&apos;re finished</Alert>
-
                                 <Box textAlign="right">
                                     <Button onClick={handleReset} variant="contained" color="error">
                                         Reset
@@ -167,19 +176,24 @@ const ApplicationForm = () => {
                     ) : (
                         <>
                             <Box>{handleSteps(activeStep)}</Box>
-                            {activeStep === steps.length - 1 &&
-                                <Button
-                                    onClick={handleSubmitApplication}
-                                    variant="contained"
-                                    color={'success'}
-                                >
-                                    Finish
-                                </Button>}
+
+                            <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+
+                                {activeStep !== steps.length - 1 &&
+                                    <Button
+                                        onClick={handleSubmitApplication}
+                                        variant="contained"
+                                        color={'success'}
+                                        sx={{ mt: 3 }}
+                                    >
+                                        Finish
+                                    </Button>}
+                            </Box>
                         </>
                     )}
                 </Box>
             </ParentCard>
-        </PageContainer>
+        </PageContainer >
     );
 };
 
