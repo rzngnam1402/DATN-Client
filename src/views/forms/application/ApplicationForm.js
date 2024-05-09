@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
     Box,
     Stepper,
@@ -98,26 +98,11 @@ const ApplicationForm = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleSkip = () => {
-        if (!isStepOptional(activeStep)) {
-            // You probably want to guard against something like this,
-            // it should never occur unless someone's actively trying to break something.
-            throw new Error("You can't skip a step that isn't optional.");
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped((prevSkipped) => {
-            const newSkipped = new Set(prevSkipped.values());
-            newSkipped.add(activeStep);
-            return newSkipped;
-        });
-    };
-
     const handleSteps = (step) => {
         switch (step) {
             case 0:
                 return (
-                    <ApplicantDetails formData={formData} setFormData={setFormData} />
+                    <ApplicantDetails formData={formData} setFormData={setFormData} handleNext={handleNext} />
                 );
             case 1:
                 return (
@@ -139,6 +124,8 @@ const ApplicationForm = () => {
     const handleReset = () => {
         setActiveStep(0);
     };
+
+    console.log(formData)
     return (
         <PageContainer>
             <Breadcrumb
@@ -180,42 +167,14 @@ const ApplicationForm = () => {
                     ) : (
                         <>
                             <Box>{handleSteps(activeStep)}</Box>
-
-                            <Box display="flex" flexDirection="row" mt={3}>
+                            {activeStep === steps.length - 1 &&
                                 <Button
-                                    color="inherit"
+                                    onClick={handleSubmitApplication}
                                     variant="contained"
-                                    disabled={activeStep === 0}
-                                    onClick={handleBack}
-                                    sx={{ mr: 1 }}
+                                    color={'success'}
                                 >
-                                    Back
-                                </Button>
-                                <Box flex="1 1 auto" />
-                                {isStepOptional(activeStep) && (
-                                    <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                                        Skip
-                                    </Button>
-                                )}
-
-                                {activeStep === steps.length - 1 ?
-                                    <Button
-                                        onClick={handleSubmitApplication}
-                                        variant="contained"
-                                        color={'success'}
-                                    >
-                                        Finish
-                                    </Button>
-                                    :
-                                    <Button
-                                        onClick={handleNext}
-                                        variant="contained"
-                                        color='secondary'
-                                    >
-                                        Next
-                                    </Button>
-                                }
-                            </Box>
+                                    Finish
+                                </Button>}
                         </>
                     )}
                 </Box>
