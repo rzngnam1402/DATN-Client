@@ -36,7 +36,8 @@ const ClientIndemnityCollapsible = ({ indemnity = {} }) => {
     const { EnterFullScreenButton } = fullScreenPluginInstance;
     const [panel, setPanel] = useState({
         panel1: false,
-        panel2: true,
+        panel2: false,
+        panel3: true,
     });
     const handleToggle = (panelName) => {
         setPanel((prevToggle) => ({
@@ -86,11 +87,73 @@ const ClientIndemnityCollapsible = ({ indemnity = {} }) => {
                     </Grid>
                 </AccordionDetails>
             </Accordion>
-            <Accordion elevation={9} sx={{ mb: 2 }} expanded={panel.panel2} onChange={() => handleToggle('panel2')}>
+            {indemnity?.relatedFile ? (<Accordion elevation={9} sx={{ mb: 2 }} expanded={panel.panel2} onChange={() => handleToggle('panel2')}>
                 <AccordionSummary
                     expandIcon={<IconChevronDown size="20" />}
                     aria-controls="panel2a-content"
                     id="panel2a-header"
+                >
+                    <Typography variant="h6">Related File</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} sm={2} >
+                        </Grid>
+                        <Grid item xs={12} sm={8} alignItems="center">
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    mt: 3,
+                                }}
+                            >
+                                <Viewer
+                                    fileUrl={indemnity?.relatedFile}
+                                    plugins={[fullScreenPluginInstance, getFilePluginInstance]}
+                                />
+                                <Box name="pdf-button-2"
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        mt: 3,
+                                    }}>
+                                    <EnterFullScreenButton />
+                                    <DownloadButton />
+                                </Box>
+                            </Box>
+                        </Grid>
+                    </Grid>
+                </AccordionDetails>
+            </Accordion>) : (<Accordion elevation={9} sx={{ mb: 2 }} expanded={panel.panel2} onChange={() => handleToggle('panel2')}>
+                <AccordionSummary
+                    expandIcon={<IconChevronDown size="20" />}
+                    aria-controls="panel2a-content"
+                    id="panel2a-header"
+                >
+                    <Typography variant="h6">Related File</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} sm={5} >
+                        </Grid>
+                        <Grid item xs={12} sm={7} alignItems="center">
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    mt: 3,
+                                }}
+                            >
+                                No data
+                            </Box>
+                        </Grid>
+                    </Grid>
+                </AccordionDetails>
+            </Accordion>)}
+
+            <Accordion elevation={9} sx={{ mb: 2 }} expanded={panel.panel3} onChange={() => handleToggle('panel3')}>
+                <AccordionSummary
+                    expandIcon={<IconChevronDown size="20" />}
+                    aria-controls="panel3a-content"
+                    id="panel3a-header"
                 >
                     <Typography variant="h6">Indemnity Detail</Typography>
                 </AccordionSummary>

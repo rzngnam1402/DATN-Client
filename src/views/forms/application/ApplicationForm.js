@@ -15,9 +15,9 @@ import ParentCard from '../../../components/shared/ParentCard';
 import { Stack } from '@mui/system';
 import ApplicantDetail from './ApplicantDetail';
 import BeneficiaryDetail from './BeneficiaryDetail';
-import GuaranteeDetail from './guaranteeDetail';
 import TermAndConditions from './TermAndConditions';
 import axiosClient from '../../../axios/axios';
+import GuaranteeDetail from './GuaranteeDetail';
 
 const steps = ['Applicant Contact Details', 'Beneficiary Business Details', 'Guarantee Details', 'Finish'];
 
@@ -179,7 +179,7 @@ const ApplicationForm = () => {
 
                             <Box sx={{ display: 'flex', justifyContent: 'end' }}>
 
-                                {activeStep !== steps.length - 1 &&
+                                {activeStep == steps.length - 1 &&
                                     <Button
                                         onClick={handleSubmitApplication}
                                         variant="contained"

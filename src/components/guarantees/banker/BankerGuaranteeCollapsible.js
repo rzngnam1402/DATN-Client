@@ -13,6 +13,7 @@ import {
     RadioGroup,
     FormControlLabel,
     FormControl,
+    Chip,
 } from '@mui/material';
 
 import { IconChevronDown, IconArrowRight } from '@tabler/icons';
@@ -44,6 +45,7 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
         }
     }, [status, dispatch]);
     const [isSigning, setIsSigning] = useState(false);
+    const [isChecking, setIsChecking] = useState(false);
     const [isIssuing, setIsIssuing] = useState(false);
     const [isSendingEmail, setIsSendingEmail] = useState(false);
     const [isDisableButton, setIsDisableButton] = useState(true);
@@ -109,6 +111,22 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
             })
     }
 
+    const handleCheck = () => {
+        setIsChecking(true);
+        axiosClient.patch(`guarantee/${guarantee.guarantee_id}`,
+            { status: 'NOT_ISSUED' }
+        )
+            .then((response) => {
+                setIsChecking(false);
+                window.location.reload()
+
+            })
+            .catch((error) => {
+                console.log(error)
+                setIsChecking(false);
+            });
+    }
+
     const handleIssue = () => {
         setIsIssuing(true);
         axiosClient.patch(`guarantee/${guarantee.guarantee_id}`,
@@ -157,10 +175,24 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
                         <AccordionDetails>
                             <Grid container spacing={3}>
                                 {
-                                    guarantee.docURL && !guarantee.signatureImg ? (
+                                    guarantee.docURL && !guarantee.signatureImg
+                                        && user?.position == 'Manager' && guarantee.status == 'NOT_ISSUED' ? (
                                         <>
                                             <Grid item xs={12} sm={4} >
-                                                <CustomFormLabel htmlFor="sign-guarantee" sx={{ mt: 0 }}>
+                                                <CustomFormLabel htmlFor="effective-date" sx={{ mt: 2 }}>
+                                                    Status
+                                                </CustomFormLabel>
+                                                <Chip
+                                                    sx={{
+                                                        backgroundColor:
+                                                            guarantee?.status === 'ISSUED'
+                                                                ? (theme) => theme.palette.success.light
+                                                                : (theme) => theme.palette.error.light
+                                                    }}
+                                                    size=""
+                                                    label={guarantee?.status}
+                                                />
+                                                <CustomFormLabel htmlFor="sign-guarantee" sx={{ mt: 4 }}>
                                                     Choose your signature
                                                 </CustomFormLabel>
                                                 <Typography>
@@ -186,7 +218,7 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
                                                 <FormControl component="fieldset" onChange={handleProvider} display="flex" alignItems="center" justifyContent="end" direction="row">
                                                     <RadioGroup name="provider" row >
                                                         <FormControlLabel
-                                                            value="BSIGN"
+                                                            value="p12"
                                                             control={<CustomRadio />}
                                                             label="BSIGN"
                                                         />
@@ -231,7 +263,7 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
                                                         )
                                                     }
                                                     <Viewer
-                                                        fileUrl={guarantee.docURL}
+                                                        fileUrl={guarantee?.docURL}
                                                         plugins={[fullScreenPluginInstance, getFilePluginInstance]}
                                                     />
                                                     <Box name="pdf-button"
@@ -249,7 +281,19 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
                                     ) :
                                         <>
                                             <Grid item xs={12} sm={2} >
-
+                                                <CustomFormLabel htmlFor="status" sx={{ mt: 2 }}>
+                                                    Status
+                                                </CustomFormLabel>
+                                                <Chip
+                                                    sx={{
+                                                        backgroundColor:
+                                                            guarantee?.status === 'ISSUED'
+                                                                ? (theme) => theme.palette.success.light
+                                                                : (theme) => theme.palette.error.light
+                                                    }}
+                                                    size=""
+                                                    label={guarantee?.status}
+                                                />
                                             </Grid>
                                             <Grid item xs={12} sm={8} alignItems="center">
                                                 <Box
@@ -284,7 +328,7 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
                                                         )
                                                     }
                                                     <Viewer
-                                                        fileUrl={guarantee.docURL}
+                                                        fileUrl={guarantee.docURL || "invalid"}
                                                         plugins={[fullScreenPluginInstance, getFilePluginInstance]}
                                                     />
                                                     <Box name="pdf-button"
@@ -362,26 +406,51 @@ const BankerGuaranteeCollapsible = ({ guarantee = {} }) => {
                                                 </Stack>
                                             </Grid>
                                         </>) :
-                                        (<>
-                                            <Grid item xs={12} sm={9} />
-                                            <Grid item xs={12} sm={3}>
-                                                <Stack direction="row" spacing={2}>
-                                                    <CustomButtonDialog
-                                                        name={isSigning ? 'Signing...' : 'Sign this guarantee'}
-                                                        color='primary'
-                                                        title='eGuarantee Signing Confirmation'
-                                                        message='Are you sure you want to sign this guarantee? Please confirm your action.'
-                                                        handleSuccess={handleSign}
-                                                        icon={isSigning ?
-                                                            <CircularProgress
-                                                                color='secondary'
-                                                                size={24}
-                                                            /> : <IconArrowRight />}
-                                                        disabled={isIssuing || isDisableButton}
-                                                    />
-                                                </Stack>
-                                            </Grid>
-                                        </>)
+                                        guarantee.status == 'UNCHECKED'
+                                            && user?.position == 'Officer' ?
+                                            (<>
+                                                <Grid item xs={12} sm={9} />
+                                                <Grid item xs={12} sm={3}>
+                                                    <Stack direction="row" spacing={2}>
+                                                        <CustomButtonDialog
+                                                            name={isChecking ? 'Marking...' : 'Mark as checked'}
+                                                            color='primary'
+                                                            title='eGuarantee Checking Confirmation'
+                                                            message='Are you sure you want to check this guarantee and move to manager to sign? Please confirm your action.'
+                                                            handleSuccess={handleCheck}
+                                                            icon={isChecking ?
+                                                                <CircularProgress
+                                                                    color='secondary'
+                                                                    size={24}
+                                                                /> : <IconArrowRight />}
+                                                        />
+                                                    </Stack>
+                                                </Grid>
+                                            </>)
+                                            : <></>
+                                }
+                                {
+                                    guarantee?.status == 'NOT_ISSUED' && !guarantee?.signatureImg && user?.position == 'Manager' &&
+                                    (<>
+                                        <Grid item xs={12} sm={9} />
+                                        <Grid item xs={12} sm={3}>
+                                            <Stack direction="row" spacing={2}>
+                                                <CustomButtonDialog
+                                                    name={isSigning ? 'Signing...' : 'Sign this guarantee'}
+                                                    color='primary'
+                                                    title='eGuarantee Signing Confirmation'
+                                                    message='Are you sure you want to sign this guarantee and move to manager to sign? Please confirm your action.'
+                                                    handleSuccess={handleSign}
+                                                    icon={isSigning ?
+                                                        <CircularProgress
+                                                            color='secondary'
+                                                            size={24}
+                                                        /> : <IconArrowRight />}
+                                                    disabled={isSigning || isDisableButton}
+                                                />
+                                            </Stack>
+                                        </Grid>
+                                    </>)
                                 }
                             </Grid>
                         </AccordionDetails>

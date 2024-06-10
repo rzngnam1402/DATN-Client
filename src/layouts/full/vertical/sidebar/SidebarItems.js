@@ -9,6 +9,7 @@ import NavCollapse from './NavCollapse';
 import NavGroup from './NavGroup/NavGroup';
 import BankerItems from './BankerItems';
 import ClientItems from './ClientItems';
+import AdminItems from './AdminItems';
 
 const SidebarItems = () => {
   const { role } = useAuth();
@@ -25,6 +26,9 @@ const SidebarItems = () => {
   }
   else if (role === 'BANKER') {
     Items = BankerItems;
+  }
+  else if (role === 'ADMIN') {
+    Items = AdminItems;
   }
 
   return (

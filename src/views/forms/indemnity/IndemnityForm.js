@@ -28,6 +28,7 @@ const IndemnityForm = () => {
     const [formData, setFormData] = React.useState({
         guarantee: '',
         reason: '',
+        relatedFile: null
     })
 
     const isStepSkipped = (step) => skipped.has(step);
@@ -69,8 +70,10 @@ const IndemnityForm = () => {
     const handleSubmitApplication = () => {
         const payload = {
             guarantee_id: formData?.guarantee.guarantee_id?.toString(),
-            reason: formData?.reason
+            reason: formData?.reason,
+            relatedFile: formData?.relatedFile,
         }
+        console.log("pl", payload)
         axiosClient.post('indemnity/create-new',
             payload
         )
@@ -85,7 +88,8 @@ const IndemnityForm = () => {
 
     console.log({
         guarantee_id: formData.guarantee.guarantee_id,
-        reason: formData.reason
+        reason: formData.reason,
+        file: formData.relatedFile,
     })
 
     return (

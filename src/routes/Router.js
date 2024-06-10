@@ -17,6 +17,9 @@ const AccountSetting = Loadable(
 );
 const Faq = Loadable(lazy(() => import('../views/faq/Faq')));
 
+// Users
+const UserList = Loadable(lazy(() => import('../views/users/List/UserList')));
+
 // Guarantees
 const GuaranteeList = Loadable(lazy(() => import('../views/guarantee/List/GuaranteeList')));
 const GuaranteeDetailTracking = Loadable(lazy(() => import('../views/guarantee/Detail/GuaranteeDetail')));
@@ -51,6 +54,7 @@ const Router = [
         children: [
           { path: '/', element: <Navigate to="/account-settings" /> },
           { path: 'tracking/applications', element: <ApplicationList /> },
+          { path: 'tracking/users', element: <UserList /> },
           { path: 'tracking/applications/:applicationId', element: <ApplicationDetailTracking /> },
           { path: 'tracking/guarantees', element: <GuaranteeList /> },
           { path: 'tracking/guarantees/:guaranteeId', element: <GuaranteeDetailTracking /> },

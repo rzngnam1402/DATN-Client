@@ -46,7 +46,7 @@ const ClientGuaranteeCollapsible = ({ guarantee = {} }) => {
             [panelName]: !prevToggle[panelName],
         }));
     }
-
+    console.log("Guarantee:", guarantee)
     return (
         <>
             {guarantee && guarantee.ApplicantDetail && (
@@ -73,7 +73,7 @@ const ClientGuaranteeCollapsible = ({ guarantee = {} }) => {
                                         }}
                                     >
                                         <Viewer
-                                            fileUrl={guarantee.docURL}
+                                            fileUrl={guarantee.docURL || "invalid"}
                                             plugins={[fullScreenPluginInstance, getFilePluginInstance]}
                                         />
                                         <Box name="pdf-button"
