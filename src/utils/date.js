@@ -6,3 +6,23 @@ export function formatDate(dateString) {
 
     return `${day}-${month}-${year}`;
 }
+export function formatTime(dateString) {
+    const date = new Date(dateString);
+
+    const dateOptions = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    };
+
+    const timeOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    };
+
+    const formattedDate = date.toLocaleDateString('en-US', dateOptions);
+    const formattedTime = date.toLocaleTimeString('en-US', timeOptions);
+
+    return `${formattedDate} ${formattedTime}`;
+}

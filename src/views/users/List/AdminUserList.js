@@ -1,11 +1,9 @@
 import Breadcrumb from '../../../layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from '../../../components/container/PageContainer';
 import ChildCard from 'src/components/shared/ChildCard';
-import BankerApplicationListing from '../../../components/applications/banker/BankerApplicationsListing';
 import UsersListing from '../../../components/users/admin/UsersListing';
 import { useEffect, useState } from 'react';
 import axiosClient from '../../../axios/axios';
-import { use } from 'i18next';
 
 const BCrumb = [
     {
@@ -20,11 +18,11 @@ const BCrumb = [
 const AdminUserList = () => {
     const [users, setUsers] = useState([]);
 
-
     useEffect(() => {
         axiosClient.get('users/all')
             .then((response) => {
-                setUsers(response.data);
+                const sortedUsers = response.data.sort((a, b) => a.id - b.id);
+                setUsers(sortedUsers);
             })
             .catch((error) => { console.log(error) });
     }, []);

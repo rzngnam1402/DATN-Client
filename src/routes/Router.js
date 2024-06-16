@@ -16,6 +16,7 @@ const AccountSetting = Loadable(
   lazy(() => import('../views/account-setting/AccountSetting')),
 );
 const Faq = Loadable(lazy(() => import('../views/faq/Faq')));
+const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
 
 // Users
 const UserList = Loadable(lazy(() => import('../views/users/List/UserList')));
@@ -62,6 +63,7 @@ const Router = [
           { path: 'indemnity/:indemnityId', element: <IndemnityDetailTracking /> },
           { path: '/account-settings', element: <AccountSetting /> },
           { path: '/faq', element: <Faq /> },
+          { path: '/dashboard', element: <Dashboard /> },
           { path: '/forms/application-form', element: <ApplicationForm /> },
           { path: '/forms/indemnity-form', element: <IndemnityForm /> },
           { path: '*', element: <Navigate to="/auth/404" /> },

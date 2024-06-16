@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Box,
     Table,
@@ -12,22 +12,58 @@ import {
     TextField,
     Pagination,
     TableContainer,
+    MenuItem,
+    Select,
+    FormControl,
 } from '@mui/material';
-import { formatDate } from '../../../utils/date';
-import { Link } from 'react-router-dom';
+
+import { toast } from 'react-toastify';
+import axiosClient from "../../../axios/axios"
 
 const UsersListing = ({ users }) => {
     const [page, setPage] = useState(1);
+    const [currentItems, setCurrentItems] = useState([]);
     const itemsPerPage = 5;
-    const indexOfLastItem = page * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = users.slice(indexOfFirstItem, indexOfLastItem);
+    useEffect(() => {
+        const indexOfLastItem = page * itemsPerPage;
+        const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+        const items = users.slice(indexOfFirstItem, indexOfLastItem);
+        setCurrentItems(items);
+    }, [page, users])
 
-    // const handleChangePage = (event, newPage) => {
-    //     setPage(newPage);
-    // };
-    // const currentItems = [];
-    console.log(currentItems);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChipChange = (id, email, event) => {
+        const newRole = event.target.value;
+        if (email === 'admin@vieguarantee.com') {
+            toast.error("Sorry, You can not change the role of this admin account!")
+            return;
+        }
+        const updatedItems = currentItems.map(item => {
+            if (item.id === id) {
+                axiosClient.patch(`users/update/role/${item.id}`,
+                    { newRole: newRole }
+                )
+                    .then((response) => {
+                        console.log(response.data)
+                        toast.success("You have changed the role successfully!")
+                    })
+                    .catch((error) => {
+                        toast.error(error)
+                    });
+                return { ...item, role: newRole };
+            }
+            else {
+                return item
+            }
+        });
+        setCurrentItems([...updatedItems]);
+    };
+
+
     return (
         <Box mt={4}>
             <Box sx={{ maxWidth: '260px', ml: 'auto' }} mb={3}>
@@ -58,6 +94,9 @@ const UsersListing = ({ users }) => {
                                 <Typography variant="h6">Role</Typography>
                             </TableCell>
                             <TableCell>
+                                <Typography variant="h6">Position</Typography>
+                            </TableCell>
+                            <TableCell>
                                 <Typography variant="h6">Company</Typography>
                             </TableCell>
                         </TableRow>
@@ -86,20 +125,39 @@ const UsersListing = ({ users }) => {
                                         {user?.username}
                                     </Typography>
                                 </TableCell>
-                                <TableCell>
-                                    <Chip
-                                        sx={{
-                                            backgroundColor:
-                                                user.role === 'BANKER'
-                                                    ? (theme) => theme.palette.success.light
-                                                    : user.role === 'CLIENT'
-                                                        ? (theme) => theme.palette.error.light
-                                                        : user.role === 'ADMIN'
-                                        }}
-                                        size="small"
-                                        label={user.role}
-                                    />
+                                <TableCell style={{ minWidth: '150px' }}>
+                                    <Typography>{user?.position ? user.position : 'Individual'}</Typography>
                                 </TableCell>
+                                <TableCell>
+                                    <FormControl size="small" fullWidth>
+                                        <Select
+                                            value={user.role}
+                                            onChange={(target) => {
+                                                handleChipChange(user?.id, user?.email, target)
+                                            }}
+                                            renderValue={(selected) => (
+                                                <Chip
+                                                    sx={{
+                                                        backgroundColor:
+                                                            selected === 'BANKER'
+                                                                ? (theme) => theme.palette.success.light
+                                                                : selected === 'CLIENT'
+                                                                    ? (theme) => theme.palette.error.light
+                                                                    : selected === 'ADMIN'
+                                                                        ? (theme) => theme.palette.info.light
+                                                                        : undefined,
+                                                    }}
+                                                    label={selected}
+                                                />
+                                            )}
+                                        >
+                                            <MenuItem value="BANKER">Banker</MenuItem>
+                                            <MenuItem value="CLIENT">Client</MenuItem>
+                                            <MenuItem value="ADMIN">Admin</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </TableCell>
+
                                 <TableCell>
                                     <Typography>{user?.company}</Typography>
                                 </TableCell>
@@ -108,15 +166,15 @@ const UsersListing = ({ users }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            {/* <Box my={3} display="flex" justifyContent={'center'}>
+            <Box my={3} display="flex" justifyContent={'center'}>
                 <Pagination
-                    count={Math.ceil(applications.length / itemsPerPage)}
+                    count={Math.ceil(currentItems.length / itemsPerPage)}
                     page={page}
                     onChange={handleChangePage}
                     color="primary"
                 />
-            </Box> */}
-        </Box>
+            </Box>
+        </Box >
     );
 };
 

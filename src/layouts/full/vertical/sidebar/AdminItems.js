@@ -15,7 +15,7 @@ const AdminItems = [{
     id: uniqueId(),
     title: 'Dashboard',
     icon: IconLayout,
-    href: '/tracking/dashboard',
+    href: '/dashboard',
 },
 {
     navlabel: true,
