@@ -36,14 +36,9 @@ const IndemnityForm = () => {
         setActiveStep(0);
     };
     const handleNext = () => {
-        let newSkipped = skipped;
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values());
-            newSkipped.delete(activeStep);
-        }
+
 
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped(newSkipped);
     };
 
     const handleBack = () => {
@@ -75,7 +70,12 @@ const IndemnityForm = () => {
         }
         console.log("pl", payload)
         axiosClient.post('indemnity/create-new',
-            payload
+            {
+                ...payload
+            },
+            {
+                headers: { "Content-Type": "multipart/form-data" },
+            }
         )
             .then((response) => {
                 toast.success('Indemnity created successfully')

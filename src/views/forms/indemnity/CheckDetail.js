@@ -15,7 +15,6 @@ const CheckDetail = ({ formData, setFormData }) => {
         panel1: false,
         panel2: false,
         panel3: false,
-        panel4: true,
     });
 
     const handleToggle = (panelName) => {

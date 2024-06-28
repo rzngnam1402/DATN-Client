@@ -66,7 +66,7 @@ const IndemnityRequest = ({ formData, setFormData }) => {
                             <p
                                 style={{ marginBottom: '3px' }}
                             >
-                                {file.name}</p>}
+                                {file?.name}</p>}
 
                     </label>
                 </Grid>
