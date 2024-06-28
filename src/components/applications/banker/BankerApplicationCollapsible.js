@@ -21,10 +21,12 @@ import FileReader from '../../../utils/file';
 import axiosClient from '../../../axios/axios';
 import { useNavigate, useParams } from 'react-router';
 import CustomButtonDialog from '../../dialog/CustomButtonDialog';
+import { useSelector } from 'react-redux';
 
 const BankerApplicationCollapsible = ({ application = {} }) => {
     const [isApproving, setIsApproving] = useState(false);
     const navigate = useNavigate();
+    const user = useSelector(state => state.user.user);
 
     const { applicationId } = useParams()
     const [panel, setPanel] = useState({
@@ -355,7 +357,7 @@ const BankerApplicationCollapsible = ({ application = {} }) => {
                                                 InputProps={{ readOnly: true }} />
                                         </Grid>
                                 }
-                                {application.status == "UNDER_REVIEW" ? (
+                                {application.status == "UNDER_REVIEW" && user?.position == 'Application Processor' ? (
                                     <>
                                         <Grid item xs={12} sm={8} />
                                         <Grid item xs={12} sm={4}>

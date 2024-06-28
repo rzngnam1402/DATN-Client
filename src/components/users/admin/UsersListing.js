@@ -23,7 +23,7 @@ import axiosClient from "../../../axios/axios"
 const UsersListing = ({ users }) => {
     const [page, setPage] = useState(1);
     const [currentItems, setCurrentItems] = useState([]);
-    const itemsPerPage = 5;
+    const itemsPerPage = 6;
     useEffect(() => {
         const indexOfLastItem = page * itemsPerPage;
         const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -91,10 +91,10 @@ const UsersListing = ({ users }) => {
                                 </Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography variant="h6">Role</Typography>
+                                <Typography variant="h6">Position</Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography variant="h6">Position</Typography>
+                                <Typography variant="h6">Role</Typography>
                             </TableCell>
                             <TableCell>
                                 <Typography variant="h6">Company</Typography>
